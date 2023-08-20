@@ -2,6 +2,8 @@ import getCurrentUser from "./actions/getCurrentUser";
 import ClientOnly from "./components/ClientOnly";
 import EmptyState from "./components/EmptyState";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const currentUser = await getCurrentUser();
 
