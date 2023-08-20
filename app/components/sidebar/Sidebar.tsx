@@ -1,15 +1,20 @@
 "use client";
 
+import { SafeUser } from '@/app/types';
 import Footer from './Footer';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
 
-const Sidebar = () => {
+interface SideBarProps {
+  currentUser?: SafeUser | null;
+}
+
+const Sidebar: React.FC<SideBarProps> = ({currentUser}) => {
   return (
-    <div className="sidebar min-h-screen justify-start">
+    <div className="sidebar min-h-screen">
         <Logo />
-        <UserMenu />
-        <Footer />
+        <UserMenu currentUser={currentUser}/>
+        <Footer currentUser={currentUser}/>
     </div>
   );
 };
