@@ -7,6 +7,7 @@ import './globals.css'
 import RegisterModal from './components/modals/RegisterModal'
 import ToasterProvider from './providers/ToastProvider'
 import getCurrentUser from './actions/getCurrentUser'
+import ProjectModal from './components/modals/ProjectModal'
 
 const font = Nunito({ subsets: ['latin'] })
 
@@ -26,14 +27,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={font .className}>
-        <div className='flex flex-row gap-2 min-h-screen'>
+        <div className='flex flex-row gap-2'>
           <ClientOnly>
             <ToasterProvider />
             <LoginModal />
             <RegisterModal />
+            <ProjectModal />
             <Sidebar currentUser={currentUser}/>
           </ClientOnly>
-          <div className='w-full min-h-screen'>
+          <div className='w-full'>
             {children}
           </div>
         </div>

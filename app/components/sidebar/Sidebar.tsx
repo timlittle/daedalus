@@ -11,7 +11,7 @@ interface SideBarProps {
 
 const Sidebar: React.FC<SideBarProps> = ({currentUser}) => {
   return (
-    <div className="sidebar min-h-screen">
+    <div className="sidebar min-h-screen max-sm:-translate-x-full max">
         <Logo />
         <UserMenu currentUser={currentUser}/>
         <Footer currentUser={currentUser}/>

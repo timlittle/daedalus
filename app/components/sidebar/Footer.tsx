@@ -4,12 +4,17 @@ import { SafeUser } from "@/app/types";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
+import Button from "../Button";
+import useProjectModal from "@/app/hooks/useProjectModal";
 
 interface FooterProps {
   currentUser?: SafeUser | null;
 }
 
 const Footer: React.FC<FooterProps> = ({ currentUser }) => {
+
+  const projectModal = useProjectModal();
+
   if (!currentUser) {
     return (
       <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
@@ -37,6 +42,10 @@ const Footer: React.FC<FooterProps> = ({ currentUser }) => {
 
   return (
     <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
+      <Button
+          label="New Project"
+          onClick={projectModal.onOpen}
+        />
       <div className="divider my-0" />
       <div className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
         <label
