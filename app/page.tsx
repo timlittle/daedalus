@@ -36,6 +36,7 @@ export default async function Home() {
                     description={project.description}
                     currentUser={currentUser}
                     key={project.id}
+                    onAction={()=>{}}
                   />
               );
             })}
