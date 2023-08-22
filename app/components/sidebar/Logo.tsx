@@ -1,3 +1,4 @@
+'use client';
 import { GiMaze } from "react-icons/gi";
 
 const Logo = () => {

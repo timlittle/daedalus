@@ -7,14 +7,12 @@ import { PiDotsThreeOutlineVertical } from 'react-icons/pi'
 interface ProjectCardProps {
     title: string;
     description: string;
-    onAction: (id: string) => void;
     currentUser: SafeUser | null;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
     title,
     description,
-    onAction,
     currentUser
 }) => {
     return (
