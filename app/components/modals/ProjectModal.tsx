@@ -2,9 +2,8 @@
 
 import useProjectModal from "@/app/hooks/useProjectModal";
 import axios from "axios";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Heading from "../Heading";
@@ -30,7 +29,7 @@ const ProjectModal = () => {
         }
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onCreate: SubmitHandler<FieldValues> = (data) => {
 
         setIsLoading(true);
 
@@ -50,6 +49,29 @@ const ProjectModal = () => {
 
     }
 
+    const onEdit: SubmitHandler<FieldValues> = (data) => {
+
+        setIsLoading(true);
+
+        axios.put(`/api/projects/${data.id}`, data)
+        .then(()=>{
+            toast.success('Project updated!');
+            router.refresh();
+            reset();
+            projectModal.onClose();
+        })
+        .catch(()=>{
+            toast.error('Something went wrong')
+        })
+        .finally(()=>{
+            setIsLoading(false);
+        })
+
+    }
+
+    let submitHandler = onCreate;
+    let actionLabel = "Create";
+
     let bodyContent = (
         <div className="flex flex-col gap-8">
             <Heading 
@@ -60,14 +82,42 @@ const ProjectModal = () => {
             <Input id='description' label='Description' register={register} errors={errors} required/>
         </div>
     )
+    if (projectModal.isEdit) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+            <Heading 
+                title="Create a new PROJECT"
+                subtitle="A project is a collection of documents that contribute to a project"
+            />
+            <Input 
+                id='title' 
+                label='Title' 
+                value='Project'
+                register={register} 
+                errors={errors} 
+                required 
+            />
+            <Input 
+                id='description' 
+                label='Description' 
+                value='A description'
+                register={register} 
+                errors={errors} 
+                required 
+            />
+        </div>
+        )
+        submitHandler = onEdit;
+        actionLabel = "Update";
+    }
 
     return ( 
     <Modal
         isOpen={projectModal.isOpen}
         title="New Project"
         onClose={projectModal.onClose}
-        onSubmit={handleSubmit(onSubmit)}
-        actionLabel="Create"
+        onSubmit={handleSubmit(submitHandler)}
+        actionLabel={actionLabel}
         body={bodyContent}
     />
     );

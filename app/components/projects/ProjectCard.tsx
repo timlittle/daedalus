@@ -1,39 +1,109 @@
-'use client';
+"use client";
 
 import { SafeUser } from "@/app/types";
-import { PiDotsThreeOutlineVertical } from 'react-icons/pi'
-
+import { useCallback, useEffect, useRef, useState } from "react";
+import { PiDotsThreeOutlineVertical } from "react-icons/pi";
+import { useDetectClickOutside } from "react-detect-click-outside";
+import { useRouter } from "next/navigation";
+import useProjectModal from "@/app/hooks/useProjectModal";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { Project } from "@prisma/client";
 
 interface ProjectCardProps {
-    title: string;
-    description: string;
-    currentUser: SafeUser | null;
+  data: Project;
+  onDelete?: (id: string) => void;
+  onEdit?: () => void;
+  disabled: boolean;
+  actionLabel?: string;
+  actionId: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
-    title,
-    description,
-    currentUser
+  data,
+  onDelete,
+  onEdit,
+  disabled,
+  actionId,
 }) => {
-    return (
-        <div className="card col-span-1 cursor-pointer group">
-            {/* <div className="flex flex-col gap-2 w-full"> */}
-                <div className="card-body w-full relative overflow-hidden rounded-xl">
-                    <div className="card-header" >
-                        {title}
-                    </div>
-                    <div className="text-content-2" >
-                        {description}
-                    </div>
-                    <div className="absolute bottom-3 right-3">
-                        <div className="realative hover:opacity-80 transition cursor-pointer">
-                            <PiDotsThreeOutlineVertical />
-                        </div>
-                    </div>
-                </div>
-            {/* </div> */}
+  const router = useRouter();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleDelete = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      if (disabled) {
+        return;
+      }
+
+      onDelete?.(actionId);
+    },
+    [onDelete, actionId, disabled]
+  );
+
+  const toggle = () => {
+    setIsOpen((value) => !value);
+  };
+
+  const toggleOpen = useCallback(() => {
+    toggle();
+  }, []);
+
+  const handleEdit = () => {
+    toggle();
+    onEdit?.();
+  }
+
+  const ref = useDetectClickOutside({ 
+    onTriggered: toggle,
+    disableKeys: true
+  });
+
+  return (
+    <div className="card col-span-1 group">
+      <div className="flex flex-col gap-2 w-full">
+        <div className="card-body w-full relative overflow-hidden rounded-xl">
+          <div className="card-header">{data.title}</div>
+          <div className="text-content-2">{data.description}</div>
+          <div className="absolute bottom-3 right-3" onClick={toggleOpen}>
+            <div className="realative hover:opacity-80 transition cursor-pointer">
+              <PiDotsThreeOutlineVertical />
+            </div>
+          </div>
         </div>
-    );
-}
- 
+      </div>
+      <div className="relative">
+        {isOpen && (
+          <div
+            ref={ref}
+            className="absolute display rounded-xl shadow-md w-[30vw] md:w-4/12 z-[66] bg-slate-6 overflow-hidden text-sm right-6 -top-8"
+          >
+            <div className="realtive flex flex-col cursor-pointer items-center justify-center">
+              <div
+                className="px-4 py-3 hover:opacity-80 transition font-semibold"
+                onClick={() => { router.push(`/projects/${data.id}`); }}
+              >
+                Open
+              </div>
+              <div 
+                className="px-4 py-3 hover:opacity-80 transition font-semibold"
+                onClick={handleEdit}
+              >
+                Edit
+              </div>
+              <div
+                className="px-4 py-3 hover:opacity-80 text-rose-500 transition font-semibold"
+                onClick={handleDelete}
+              >
+                Remove
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default ProjectCard;

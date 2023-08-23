@@ -22,23 +22,17 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  const currentUser = await getCurrentUser();
 
   return (
     <html lang="en">
       <body className={font .className}>
-        <div className='flex flex-row gap-2'>
           <ClientOnly>
             <ToasterProvider />
             <LoginModal />
             <RegisterModal />
             <ProjectModal />
-            <Sidebar currentUser={currentUser}/>
           </ClientOnly>
-          <div className='w-full'>
-            {children}
-          </div>
-        </div>
+          {children}
       </body>
     </html>
   )

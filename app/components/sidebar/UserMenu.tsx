@@ -3,15 +3,25 @@
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { SafeUser } from '@/app/types';
+import { Document, Project } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { AiOutlineFolder } from 'react-icons/ai';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 
 interface UserMenuProps {
     currentUser?: SafeUser | null;
+    projects?: Project[];
+    documents?: Document[]
 }
 
 
-const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
+const UserMenu: React.FC<UserMenuProps> = ({
+    currentUser,
+    projects,
+    documents
+}) => {
+
+    const router = useRouter();
 
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
@@ -20,7 +30,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
         <ul className='menu-items'>
         <li className='menu-item'>
             <AiOutlineFolder size={16} />
-            <div>Projects</div>
+            <div onClick={()=> router.push('/projects')}>Projects</div>
         </li>
         <li className='menu-item'>
             <HiOutlineDocumentText size={16} />
@@ -28,6 +38,22 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
         </li>
     </ul>
     )
+
+    if (projects){
+        menuContent = (
+            <div className='menu-section'>
+                <div className='menu-tile'>Projects</div>
+                <ul className='menu-items'>
+                    {projects?.map((project)=>(
+                        <li className='menu-item' key={project.id}>
+                            <AiOutlineFolder size={16} />
+                            <div onClick={()=> router.push(`/projects/${project.id}`)}>{project.title}</div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
 
     if (!currentUser) {
         menuContent = (

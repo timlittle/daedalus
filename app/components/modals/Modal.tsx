@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from 'react-icons/io';
 import Button from "../Button";
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 interface ModalProps {
     isOpen?: boolean,
@@ -77,7 +78,8 @@ const Modal: React.FC<ModalProps> = ({
                 h-full
                 ${showModal ? 'translate-y-0' : 'translate-y-full'}
                 ${showModal ? 'opacity-100' : 'opacity-0'}
-            `}>
+            `}
+            >
                 <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-1 outline-none focus:outline-none">
                     {/* HEADER */}
                     <div className="flex items-center p-6 rounded-t justify-center relative border-b-[1px]">
