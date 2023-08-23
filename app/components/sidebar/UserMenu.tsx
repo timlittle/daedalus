@@ -28,9 +28,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     let menuContent = (
         <ul className='menu-items'>
-        <li className='menu-item'>
+        <li className='menu-item' onClick={()=> router.push('/projects')}>
             <AiOutlineFolder size={16} />
-            <div onClick={()=> router.push('/projects')}>Projects</div>
+            <div>Projects</div>
         </li>
         <li className='menu-item'>
             <HiOutlineDocumentText size={16} />
@@ -45,9 +45,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 <div className='menu-tile'>Projects</div>
                 <ul className='menu-items'>
                     {projects?.map((project)=>(
-                        <li className='menu-item' key={project.id}>
-                            <AiOutlineFolder size={16} />
-                            <div onClick={()=> router.push(`/projects/${project.id}`)}>{project.title}</div>
+                        <li
+                            className='menu-item'
+                            onClick={()=> router.push(`/projects/${project.id}`)}
+                            key={project.id}
+                            >
+                                <AiOutlineFolder size={16} />
+                                <div>{project.title}</div>
                         </li>
                     ))}
                 </ul>
