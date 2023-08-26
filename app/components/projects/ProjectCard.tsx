@@ -61,7 +61,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   });
 
   return (
-    <div className="card col-span-1 group">
+    <div className="card col-span-1 group max-w-none sm:max-w-[24rem]">
       <div className="flex flex-col gap-2 w-full">
         <div className="card-body w-full relative overflow-hidden rounded-xl">
           <div className="card-header">{data.title}</div>

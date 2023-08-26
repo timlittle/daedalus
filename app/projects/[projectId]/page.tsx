@@ -23,7 +23,7 @@ const ProjectPage = async ({ params }: { params: IParams }) => {
     <AppContainer
       currentUser={currentUser}
       body={
-        <div className="text-2xl font-bold flex justify-center pt-14">
+        <div className="text-2xl font-bold flex justify-center sm:pt-14 py-4">
           <Heading title={project.title} />
         </div>
       }
