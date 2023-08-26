@@ -21,7 +21,7 @@ const AppContainer: React.FC<AppContainerProps> = ({
     body
 }) => {
     return (
-        <div className='flex sm:flex-row flex-col gap-2'>
+        <div className='flex sm:flex-row flex-col gap-2 h-full'>
         <ClientOnly>
             <MobileNavbar currentUser={currentUser}/>
             <Sidebar currentUser={currentUser} projects={projects} documents={documents} projectId={projectId}/>

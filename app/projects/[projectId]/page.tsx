@@ -24,7 +24,10 @@ const ProjectPage = async ({ params }: { params: IParams }) => {
     return (
       <AppContainer 
         currentUser={currentUser}
-        body={<EmptyState title="No documents found" subtitle="Start by clicking New Document"/>}
+        projectId={projectId}
+        body={
+        <EmptyState title="No documents found" subtitle="Start by clicking New Document"/>
+      }
       />
     )
   }
