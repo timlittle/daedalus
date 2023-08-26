@@ -4,21 +4,23 @@ import { SafeUser } from '@/app/types';
 import Footer from './Footer';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
-import { Project } from '@prisma/client';
+import { Document, Project } from '@prisma/client';
 
 interface SideBarProps {
   currentUser?: SafeUser | null;
   projects?: Project[] | undefined;
+  documents?: Document[] | undefined;
 }
 
 const Sidebar: React.FC<SideBarProps> = ({
   currentUser,
-  projects
+  projects,
+  documents
 }) => {
   return (
-    <div className="sidebar min-h-screen max-sm:-translate-x-full sidebar-mobile">
+    <div className="sidebar sidebar-mobile min-h-full justify-start max-sm:fixed max-sm:-translate-x-full">
         <Logo />
-        <UserMenu currentUser={currentUser} projects={projects}/>
+        <UserMenu currentUser={currentUser} projects={projects} documents={documents}/>
         <Footer currentUser={currentUser}/>
     </div>
   );

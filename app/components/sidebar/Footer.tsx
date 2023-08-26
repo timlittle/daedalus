@@ -6,6 +6,7 @@ import Image from "next/image";
 import React from "react";
 import Button from "../Button";
 import useProjectModal from "@/app/hooks/useProjectModal";
+import Heading from "../Heading";
 
 interface FooterProps {
   currentUser?: SafeUser | null;
@@ -40,8 +41,17 @@ const Footer: React.FC<FooterProps> = ({ currentUser }) => {
     );
   }
 
+  const endDate = new Date("09/18/2023");
+  const startDate = new Date();
+  const diffTime = endDate.getTime() - startDate.getTime();
+  const diffDays = diffTime / (1000 * 3600 * 24);
+
   return (
     <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
+      <div className="text-rose-400 flex justify-center items-center">
+        <Heading title={`${Math.floor(diffDays)} days remaining`}/>
+
+      </div>
       <Button
           label="New Project"
           onClick={projectModal.onOpen}

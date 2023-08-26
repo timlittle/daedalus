@@ -1,8 +1,7 @@
 import getCurrentUser from "../actions/getCurrentUser";
 import getProjects from "../actions/getProjects";
-import ClientOnly from "../components/ClientOnly";
+import AppContainer from "../components/AppContainer";
 import EmptyState from "../components/EmptyState";
-import Sidebar from "../components/sidebar/Sidebar";
 import ProjectsClient from "./ProjectsClient";
 
 const ProjectsPage = async () => {
@@ -10,14 +9,10 @@ const ProjectsPage = async () => {
 
   if (!currentUser) {
     return (
-      <div className="flex flex-row gap-2">
-        <ClientOnly>
-          <Sidebar currentUser={currentUser} />
-        </ClientOnly>
-        <ClientOnly>
-          <EmptyState title="Unauthorized" subtitle="Please log in" />
-        </ClientOnly>
-      </div>
+      <AppContainer
+        currentUser={currentUser}
+        body={<EmptyState title="Unauthorized" subtitle="Please log in" />}
+      />
     );
   }
 
@@ -27,29 +22,25 @@ const ProjectsPage = async () => {
 
   if (projects.length === 0) {
     return (
-      <div className="flex flex-row gap-2">
-        <ClientOnly>
-          <Sidebar currentUser={currentUser} />
-        </ClientOnly>
-        <ClientOnly>
+      <AppContainer
+        currentUser={currentUser}
+        projects={projects}
+        body={
           <EmptyState
             title="No projects found"
             subtitle="Looks like you have no prjects"
           />
-        </ClientOnly>
-      </div>
+        }
+      />
     );
   }
 
   return (
-    <div className="flex flex-row gap-2">
-      <ClientOnly>
-        <Sidebar projects={projects} currentUser={currentUser} />
-      </ClientOnly>
-      <ClientOnly>
-        <ProjectsClient projects={projects} currentUser={currentUser} />
-      </ClientOnly>
-    </div>
+    <AppContainer
+      currentUser={currentUser}
+      projects={projects}
+      body={<ProjectsClient projects={projects} currentUser={currentUser} />}
+    />
   );
 };
 

@@ -40,6 +40,13 @@ const ProjectsClient: React.FC<ProjectsClientProps> = ({
         })
     }, [router]);
 
+    const onEdit = useCallback((id: string, title: string, description: string)=>{
+        projectModal.setProjectId(id)
+        projectModal.setProjectTitle(title);
+        projectModal.setProjectDescription(description);
+        projectModal.onEdit();
+    },[projectModal])
+
     return ( 
         <Container>
             <div className="text-2xl font-bold flex justify-center pt-14">
@@ -55,7 +62,7 @@ const ProjectsClient: React.FC<ProjectsClientProps> = ({
                         data={project}
                         actionId={project.id}
                         onDelete={onDelete}
-                        onEdit={projectModal.onOpen}
+                        onEdit={() => onEdit(project.id, project.title, project.description)}
                         disabled={deletingId === project.id}
                     />
                 ))}
@@ -65,21 +72,3 @@ const ProjectsClient: React.FC<ProjectsClientProps> = ({
 }
  
 export default ProjectsClient;
-
-
-{/* <div className="flex flex-col gap-2">
-<div className="text-2xl font-bold flex pt-8 justify-center">Projects</div>
-<div className="pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
-  {projects.map((project)=>{
-    return (
-        <ProjectCard
-          id={project.id}
-          title={project.title}
-          description={project.description}
-          key={project.id}
-        />
-    );
-  })}
-</div>
-
-</div> */}

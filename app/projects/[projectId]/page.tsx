@@ -1,45 +1,34 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getProjectById from "@/app/actions/getProjectById";
 import getProjects from "@/app/actions/getProjects";
-import ClientOnly from "@/app/components/ClientOnly";
-import Container from "@/app/components/Container";
+import AppContainer from "@/app/components/AppContainer";
 import EmptyState from "@/app/components/EmptyState";
 import Heading from "@/app/components/Heading";
-import Sidebar from "@/app/components/sidebar/Sidebar";
 
 interface IParams {
-    projectId: string;
+  projectId: string;
 }
 
-const ProjectPage = async ({ params }: {params: IParams}) => {
+const ProjectPage = async ({ params }: { params: IParams }) => {
+  const currentUser = await getCurrentUser();
+  const project = await getProjectById(params);
 
-    const currentUser = await getCurrentUser();
-    const project = await getProjectById(params);
-    
-    if (!project || !currentUser) {
-        return (
-            <ClientOnly>
-                <EmptyState />
-            </ClientOnly>
-        )
-    }
-    
-    const projects = await getProjects({userId: currentUser.id,});
+  if (!project || !currentUser) {
+    return <AppContainer currentUser={currentUser} body={<EmptyState />} />;
+  }
 
-    return (
-        <div className="flex flex-row gap-2">
-        <ClientOnly>
-          <Sidebar currentUser={currentUser} />
-        </ClientOnly>
-        <ClientOnly>
-            <Container>
-                <div className="text-2xl font-bold flex justify-center pt-14">
-                    <Heading title={project.title}/>
-                </div>
-            </Container>
-        </ClientOnly>
-      </div>
-    );
-}
- 
+  const projects = await getProjects({ userId: currentUser.id });
+
+  return (
+    <AppContainer
+      currentUser={currentUser}
+      body={
+        <div className="text-2xl font-bold flex justify-center pt-14">
+          <Heading title={project.title} />
+        </div>
+      }
+    />
+  );
+};
+
 export default ProjectPage;
