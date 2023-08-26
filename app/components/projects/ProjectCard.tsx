@@ -61,7 +61,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <div className="card col-span-1 group max-w-none sm:max-w-[24rem] hover:scale-105">
       <div className="flex flex-col gap-2 w-full grow">
-        <div className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80" onClick={() => { router.push(`/projects/${data.id}`); }}>
+        <div className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80 select-none sm:select-auto" onClick={() => { router.push(`/projects/${data.id}`); }}>
           <div className="card-header">{data.title}</div>
           <div className="text-content-2">{data.description}</div>
           <div className="absolute top-3 right-3"><AiFillFolder size={16} /></div>
