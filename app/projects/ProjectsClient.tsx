@@ -13,13 +13,9 @@ import useProjectModal from "../hooks/useProjectModal";
 
 interface ProjectsClientProps {
     projects: Project[];
-    currentUser?: SafeUser | null;
 }
 
-const ProjectsClient: React.FC<ProjectsClientProps> = ({
-    projects,
-    currentUser
-}) => {
+const ProjectsClient: React.FC<ProjectsClientProps> = ({ projects }) => {
     const router = useRouter();
     const projectModal = useProjectModal();
     const [deletingId, setDeletingId] = useState('');

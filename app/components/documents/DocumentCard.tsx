@@ -1,14 +1,14 @@
 "use client";
 
-import { Project } from "@prisma/client";
+import { Document } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useDetectClickOutside } from "react-detect-click-outside";
+import { HiDocumentText } from "react-icons/hi";
 import { PiDotsThreeOutlineVertical } from "react-icons/pi";
-import { AiFillFolder } from 'react-icons/ai';
 
-interface ProjectCardProps {
-  data: Project;
+interface DocumentCardProps {
+  data: Document;
   onDelete?: (id: string) => void;
   onEdit?: () => void;
   disabled: boolean;
@@ -16,7 +16,7 @@ interface ProjectCardProps {
   actionId: string;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
+const DocumentCard: React.FC<DocumentCardProps> = ({
   data,
   onDelete,
   onEdit,
@@ -45,6 +45,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   const toggleOpen = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+
     toggle();
   }, []);
 
@@ -61,10 +62,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <div className="card col-span-1 group max-w-none sm:max-w-[24rem] hover:scale-105">
       <div className="flex flex-col gap-2 w-full grow">
-        <div className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80" onClick={() => { router.push(`/projects/${data.id}`); }}>
+        <div className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80" onClick={() => { router.push(`/documents/${data.id}`); }}>
           <div className="card-header">{data.title}</div>
           <div className="text-content-2">{data.description}</div>
-          <div className="absolute top-3 right-3"><AiFillFolder size={16} /></div>
+          <div className="absolute top-3 right-3"><HiDocumentText size={16} /></div>
           <div className="absolute bottom-3 right-3" onClick={toggleOpen}>
             <div className="realative hover:opacity-80 transition cursor-pointer">
               <PiDotsThreeOutlineVertical />
@@ -99,4 +100,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   );
 };
 
-export default ProjectCard;
+export default DocumentCard;

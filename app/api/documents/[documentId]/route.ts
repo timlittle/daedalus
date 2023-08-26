@@ -4,7 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from '@/app/libs/prismadb';
 
 interface IParams {
-    projectId?: string
+    documentId?: string
 }
 
 export async function DELETE(
@@ -17,20 +17,20 @@ export async function DELETE(
         return NextResponse.error();
     }
 
-    const { projectId } = params;
+    const { documentId } = params;
 
-    if ( !projectId || typeof projectId !== 'string'){
+    if ( !documentId || typeof documentId !== 'string'){
         throw new Error('Invalid ID');
     }
 
-    const project = await prisma.project.deleteMany({
+    const document = await prisma.document.deleteMany({
         where: {
-            id: projectId,
+            id: documentId,
             userId: currentUser.id
         }
     });
 
-    return NextResponse.json(project);
+    return NextResponse.json(document);
 }
 
 export async function PUT(
@@ -44,15 +44,16 @@ export async function PUT(
         return NextResponse.error();
     }
 
-    const { projectId } = params;
+    const { documentId } = params;
 
-    if ( !projectId || typeof projectId !== 'string'){
+    if ( !documentId || typeof documentId !== 'string'){
         throw new Error('Invalid ID');
     }
 
     const {
         title,
         description,
+        projectId,
     } = body;
 
     Object.keys(body).forEach((value: any) => {
@@ -61,17 +62,18 @@ export async function PUT(
         }
     });
 
-    const project = await prisma.project.updateMany({
+    const document = await prisma.document.updateMany({
         where: {
-            id: projectId,
+            id: documentId,
             userId: currentUser.id
         },
         data: {
             title: title,
             description: description,
+            projectId: projectId,
             userId: currentUser.id
         }
     })
 
-    return NextResponse.json(project)
+    return NextResponse.json(document);
 }

@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import ClientOnly from './components/ClientOnly'
+import DocumentModal from './components/modals/DocumentModal'
 import LoginModal from './components/modals/LoginModal'
-import Sidebar from './components/sidebar/Sidebar'
-import './globals.css'
-import RegisterModal from './components/modals/RegisterModal'
-import ToasterProvider from './providers/ToastProvider'
-import getCurrentUser from './actions/getCurrentUser'
 import ProjectModal from './components/modals/ProjectModal'
+import RegisterModal from './components/modals/RegisterModal'
+import './globals.css'
+import ToasterProvider from './providers/ToastProvider'
 
 const font = Nunito({ subsets: ['latin'] })
 
@@ -31,6 +30,7 @@ export default async function RootLayout({
             <LoginModal />
             <RegisterModal />
             <ProjectModal />
+            <DocumentModal />
           </ClientOnly>
           {children}
       </body>

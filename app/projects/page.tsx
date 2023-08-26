@@ -16,9 +16,7 @@ const ProjectsPage = async () => {
     );
   }
 
-  const projects = await getProjects({
-    userId: currentUser.id,
-  });
+  const projects = await getProjects({userId: currentUser.id });
 
   if (projects.length === 0) {
     return (
@@ -39,7 +37,7 @@ const ProjectsPage = async () => {
     <AppContainer
       currentUser={currentUser}
       projects={projects}
-      body={<ProjectsClient projects={projects} currentUser={currentUser} />}
+      body={<ProjectsClient projects={projects}/>}
     />
   );
 };

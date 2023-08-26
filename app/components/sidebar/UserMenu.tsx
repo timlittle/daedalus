@@ -57,6 +57,24 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 </ul>
             </div>
         )
+    } else if (documents) {
+        menuContent = (
+            <div className='menu-section'>
+                <div className='menu-tile'>Documents</div>
+                <ul className='menu-items'>
+                    {documents?.map((document)=>(
+                        <li
+                            className='menu-item'
+                            onClick={()=> router.push(`/documents/${document.id}`)}
+                            key={document.id}
+                            >
+                                <HiOutlineDocumentText size={16} />
+                                <div>{document.title}</div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
     }
 
     if (!currentUser) {

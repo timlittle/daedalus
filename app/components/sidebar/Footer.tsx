@@ -3,18 +3,39 @@
 import { SafeUser } from "@/app/types";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useCallback } from "react";
 import Button from "../Button";
 import useProjectModal from "@/app/hooks/useProjectModal";
 import Heading from "../Heading";
+import useDocumentModal from "@/app/hooks/useDocumentModal";
+import { useRouter } from "next/navigation";
 
 interface FooterProps {
   currentUser?: SafeUser | null;
+  projectId?: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ currentUser }) => {
+const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
 
   const projectModal = useProjectModal();
+  const documentModal = useDocumentModal();
+  const router = useRouter();
+
+  let createButton = (
+    <Button
+    label="New Project"
+    onClick={projectModal.onOpen}
+  />
+  )
+
+if (projectId) {
+  createButton = (
+      <Button
+        label="New Document"
+        onClick={documentModal.onOpen}
+    />
+  )
+}
 
   if (!currentUser) {
     return (
@@ -48,14 +69,12 @@ const Footer: React.FC<FooterProps> = ({ currentUser }) => {
 
   return (
     <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
-      <div className="text-rose-400 flex justify-center items-center">
+      {/* <div className="text-rose-400 flex justify-center items-center">
         <Heading title={`${Math.floor(diffDays)} days remaining`}/>
 
-      </div>
-      <Button
-          label="New Project"
-          onClick={projectModal.onOpen}
-        />
+      </div> */}
+      {createButton}
+
       <div className="divider my-0" />
       <div className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
         <label
@@ -80,14 +99,19 @@ const Footer: React.FC<FooterProps> = ({ currentUser }) => {
           </div>
         </label>
         <div className="dropdown-menu dropdown-menu-right-top ml-2">
-          <a className="dropdown-item text-sm">Profile</a>
-          <label
+          <div 
             tabIndex={-1}
             className="dropdown-item text-sm"
-            htmlFor="modal-1"
+            onClick={()=> router.push('/profile')}>
+            Profile
+            </div>
+          <div
+            tabIndex={-1}
+            className="dropdown-item text-sm"
+            onClick={()=> router.push('/projects')}
           >
             My Projects
-          </label>
+          </div>
           <div
             tabIndex={-1}
             className="dropdown-item text-sm"

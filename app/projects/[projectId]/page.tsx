@@ -1,9 +1,9 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import getDocumentsById from "@/app/actions/getDocumentsById";
 import getProjectById from "@/app/actions/getProjectById";
-import getProjects from "@/app/actions/getProjects";
 import AppContainer from "@/app/components/AppContainer";
 import EmptyState from "@/app/components/EmptyState";
-import Heading from "@/app/components/Heading";
+import ProjectPageClient from "./ProjectPageClient";
 
 interface IParams {
   projectId: string;
@@ -11,21 +11,31 @@ interface IParams {
 
 const ProjectPage = async ({ params }: { params: IParams }) => {
   const currentUser = await getCurrentUser();
-  const project = await getProjectById(params);
+  const { projectId } = params;
+  const project = await getProjectById({projectId: projectId});
 
   if (!project || !currentUser) {
     return <AppContainer currentUser={currentUser} body={<EmptyState />} />;
   }
 
-  const projects = await getProjects({ userId: currentUser.id });
+  const documents = await getDocumentsById({projectId: project.id});
+
+  if (documents.length == 0) {
+    return (
+      <AppContainer 
+        currentUser={currentUser}
+        body={<EmptyState title="No documents found" subtitle="Start by clicking New Document"/>}
+      />
+    )
+  }
 
   return (
     <AppContainer
       currentUser={currentUser}
+      documents={documents}
+      projectId={projectId}
       body={
-        <div className="text-2xl font-bold flex justify-center sm:pt-14 py-4">
-          <Heading title={project.title} />
-        </div>
+        <ProjectPageClient projectTitle={project.title} documents={documents} />
       }
     />
   );
