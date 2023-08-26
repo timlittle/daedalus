@@ -20,7 +20,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ currentUser }) => {
   if (!currentUser){
     return (
       <div className="navbar sm:hidden">
-        <div className="navbar-start">
+        <div className="navbar-start gap-4">
           <GiMaze size={30} />
           <div>Daedalus</div>
         </div>
@@ -34,7 +34,7 @@ const MobileNavbar: React.FC<MobileNavbarProps> = ({ currentUser }) => {
   
   return (
     <div className="navbar sm:hidden">
-        <div className="navbar-start">
+        <div className="navbar-start gap-4">
           <GiMaze size={30} />
           <div>Daedalus</div>
         </div>
