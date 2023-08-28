@@ -8,3 +8,13 @@ export type SafeUser = Omit<
   updatedAt: string;
   emailVerified: string | null;
 };
+
+
+export type SafeDocument = Omit<
+  Document,
+  "createdAt" | "updatedAt"
+> & {
+  createdAt: string;
+  updatedAt: string;
+  emailVerified: string | null;
+};

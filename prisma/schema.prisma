@@ -62,6 +62,7 @@ model Project {
 model Document {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
+  content String?
   description String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

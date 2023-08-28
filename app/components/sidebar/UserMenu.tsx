@@ -91,7 +91,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     }
 
     return (
-        <section className="sidebar-content h-fit min-h-[20rem] overflow-visible py-0">
+        <section className="sidebar-content h-fit overflow-visible py-0">
             <div className='divider my-0' />
             <nav className="nav rounded-md my-5">
                 <section className='menu-section px-4'>

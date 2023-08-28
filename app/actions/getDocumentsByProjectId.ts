@@ -4,7 +4,7 @@ export interface IDocumentsParams {
   projectId?: string;
 }
 
-export default async function getDocumentsById(params: IDocumentsParams) {
+export default async function getDocumentsByProjectId(params: IDocumentsParams) {
   try {
     const { projectId } = params;
 

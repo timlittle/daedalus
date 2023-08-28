@@ -69,10 +69,9 @@ if (projectId) {
 
   return (
     <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
-      {/* <div className="text-rose-400 flex justify-center items-center">
+      <div className="text-rose-400 flex justify-center items-center">
         <Heading title={`${Math.floor(diffDays)} days remaining`}/>
-
-      </div> */}
+      </div>
       {createButton}
 
       <div className="divider my-0" />

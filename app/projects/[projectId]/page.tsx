@@ -1,5 +1,5 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import getDocumentsById from "@/app/actions/getDocumentsById";
+import getDocumentsByProjectId from "@/app/actions/getDocumentsByProjectId";
 import getProjectById from "@/app/actions/getProjectById";
 import AppContainer from "@/app/components/AppContainer";
 import EmptyState from "@/app/components/EmptyState";
@@ -18,7 +18,7 @@ const ProjectPage = async ({ params }: { params: IParams }) => {
     return <AppContainer currentUser={currentUser} body={<EmptyState />} />;
   }
 
-  const documents = await getDocumentsById({projectId: project.id});
+  const documents = await getDocumentsByProjectId({projectId: project.id});
 
   if (documents.length == 0) {
     return (

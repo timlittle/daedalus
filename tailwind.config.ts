@@ -15,6 +15,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("rippleui")],
+  plugins: [
+    require("rippleui"),
+    require("@tailwindcss/typography")
+  ],
 }
 export default config
