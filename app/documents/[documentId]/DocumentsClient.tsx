@@ -18,10 +18,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { GiMaze } from "react-icons/gi";
+import { TiptapCollabProvider } from "@hocuspocus/provider";
+
+// @ts-ignore
+import { Autosave } from  'react-autosave';
+// @ts-ignore
+import markdownItMermaid from "@md-reader/markdown-it-mermaid";
+// @ts-ignore
+import markdownItTextualUml from "markdown-it-textual-uml";
 // @ts-ignore
 import { yCollab } from "y-codemirror.next";
-// @ts-ignore
-import { WebrtcProvider } from "y-webrtc";
 // @ts-ignore
 import RandomColor from "randomcolor";
 
@@ -38,56 +44,69 @@ const DocumentClient = ({
 }: DocumentClientProps) => {
   const router = useRouter();
 
-  const initalMarkdown = document.content
-    ? document.content
-    : `# ${document.title}`;
+  const initalMarkdown = document.content ? document.content : `# ${document.title}`;
 
   const store = syncedStore({ contentText: "text" });
   const providerInitalised = useRef(false);
   const editorMarkdown = useSyncedStore(store);
   const [isLoading, setIsLoading] = useState(false);
-  const [connectedUsers, setConnectedUsers] = useState(0);
+  const connectedUsers = useRef(0);
 
-  let extensions = useMemo(
-    () => [markdown({ base: markdownLanguage, codeLanguages: languages })],
-    []
-  );
+  let extensions = useMemo(() => [markdown({ base: markdownLanguage, codeLanguages: languages })],[]);
+
+  const md = require("markdown-it")({
+    highlight: function (code: string, lang: string) {
+      const language = hljs.getLanguage(lang) ? lang : "plaintext";
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+    .use(markdownItTextualUml)
+    .use(markdownItMermaid, {
+      theme: "dark",
+      flowchart: { useMaxWidth: true },
+    });
+
+  const parsedMarkdown = md.render(editorMarkdown.contentText.toString());
 
   useEffect(() => {
     if (providerInitalised.current) return;
 
-    try {
-      const doc = getYjsDoc(store);
-      const webrtcProvider = new WebrtcProvider(document.id, doc, {
-        // signaling: ["ws://localhost:4444"],
-      });
-      webrtcProvider.awareness.setLocalStateField("user", {
-        name: "User " + Math.floor(Math.random() * 100),
-        color: RandomColor(),
-      });
-  
-      webrtcProvider.awareness.on("change", () => {
-        setConnectedUsers(
-          Array.from(webrtcProvider.awareness.getStates().values()).length
-        );
-      });
-  
-      webrtcProvider.awareness.on("connect", () => {
-        toast.success(currentUser + " connected");
-      });
-  
-      webrtcProvider.awareness.on("close", () => {
-        toast.success(currentUser + " disconnected");
-      });
-  
-      extensions.push(
-        yCollab(editorMarkdown.contentText, webrtcProvider.awareness)
-      );
-      providerInitalised.current = true;
-    } catch (error) {
-      toast.error("An error occured");
-      console.log(error);
-    }
+    const doc = getYjsDoc(store);
+
+    const provider = new TiptapCollabProvider({
+      appId: "jkv8llmx",
+      name: document.id,
+      document: doc,
+    });
+
+    // @ts-ignore
+    provider.awareness.setLocalStateField("user", {
+      name: currentUser?.name,
+      color: RandomColor(),
+    });
+
+    // @ts-ignore
+    provider.awareness.on("change", () => {
+      // @ts-ignore
+      connectedUsers.current = Array.from(provider.awareness.getStates().values()).length;
+    });
+
+    provider.on("synced", () => {
+      if (
+        editorMarkdown.contentText.toString() === "" &&
+        connectedUsers.current === 0
+      ) {
+        editorMarkdown.contentText.insert(0, initalMarkdown);
+      }
+    });
+
+    extensions.push(yCollab(editorMarkdown.contentText, provider.awareness));
+
+    providerInitalised.current = true;
+
+    return () => {
+      provider.disconnect();
+    };
   }, [
     initalMarkdown,
     editorMarkdown,
@@ -125,13 +144,9 @@ const DocumentClient = ({
         setIsLoading(false);
       });
   };
+
   const onChange = (markdown: string) => {
     setValue("content", markdown);
-  };
-  const onCreate = () => {
-    if (editorMarkdown.contentText.toString() === "") {
-      editorMarkdown.contentText.insert(0, initalMarkdown);
-    }
   };
 
   let saveButton = (
@@ -143,15 +158,6 @@ const DocumentClient = ({
   if (isLoading) {
     saveButton = <div className="btn btn-primary btn-loading"></div>;
   }
-
-  const md = require("markdown-it")({
-    highlight: function (code: string, lang: string) {
-      const language = hljs.getLanguage(lang) ? lang : "plaintext";
-      return hljs.highlight(code, { language }).value;
-    },
-  });
-
-  const parsed = md.render(editorMarkdown.contentText.toString());
 
   return (
     <div className="flex flex-col h-screen">
@@ -165,7 +171,7 @@ const DocumentClient = ({
             <div>Daedalus</div>
           </div>
           <div className="gap-4 navbar-center">
-            <div>{connectedUsers}</div>
+            <div>{connectedUsers.current}</div>
             <div className="title">{document.title}</div>
           </div>
           <div className="navbar-end gap-8">
@@ -212,23 +218,21 @@ const DocumentClient = ({
         <div className="w-full h-screen overflow-y-scroll grid grid-cols-1 sm:grid-cols-2">
           <div className="border-r-2 border-gray-5">
             <CodeMirror
-              value={editorMarkdown.contentText.toString()}
               extensions={extensions}
               theme={githubDark}
               onChange={onChange}
-              onCreateEditor={onCreate}
             />
           </div>
-          {/* <Editor /> */}
           <div className="bg-gray-4 relative">
             <div className="absolute top-0 right-0 text-xs">Preview</div>
             <div
               className="prose prose-invert p-10"
-              dangerouslySetInnerHTML={{ __html: parsed }}
+              dangerouslySetInnerHTML={{ __html: parsedMarkdown }}
             ></div>
           </div>
         </div>
       </ClientOnly>
+      <Autosave data={editorMarkdown.contentText.toString()} onSave={handleSubmit(onSave)} />
     </div>
   );
 };
