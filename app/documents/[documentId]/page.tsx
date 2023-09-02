@@ -1,14 +1,13 @@
 
+import getAllSharedUsers from "@/app/actions/getAllSharedUsers";
+import getAllUsers from "@/app/actions/getAllUsers";
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import DocumentClient from "./DocumentsClient";
-import AppContainer from "@/app/components/AppContainer";
-import EmptyState from "@/app/components/EmptyState";
 import getDocumentById from "@/app/actions/getDocumentById";
 import getProjectById from "@/app/actions/getProjectById";
-import getAllUsers from "@/app/actions/getAllUsers";
-import getAllSharedUsers from "@/app/actions/getAllSharedUsers";
-import dynamic from "next/dynamic";
+import AppContainer from "@/app/components/AppContainer";
+import EmptyState from "@/app/components/EmptyState";
 import { SafeUser } from "@/app/types";
+import dynamic from "next/dynamic";
 
 interface IDocumentParams {
   documentId: string;

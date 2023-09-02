@@ -202,23 +202,11 @@ const DocumentClient = ({
             <div className="navbar-item dropdown">
               <div tabIndex={0}>Menu</div>
               <div className="dropdown-menu">
-                <div
-                  tabIndex={-1}
-                  className="dropdown-item"
-                  onClick={() => router.push("/projects")}
-                >
-                  Projects
-                </div>
-                <div tabIndex={-1} className="dropdown-item">
-                  Profile
-                </div>
-                <div
-                  tabIndex={-1}
-                  className="dropdown-item"
-                  onClick={() => signOut()}
-                >
-                  Logout
-                </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/projects")}> Projects </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents")}> Documents </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents/shared")}> Shared Documents </div>
+                <div tabIndex={-1} className="dropdown-item">Profile</div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => signOut()}>Logout </div>
               </div>
             </div>
           </div>

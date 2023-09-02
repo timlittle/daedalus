@@ -20,7 +20,7 @@ const Sidebar: React.FC<SideBarProps> = ({
   projectId
 }) => {
   return (
-    <div className="sidebar sidebar-mobile min-h-full justify-start max-sm:fixed max-sm:-translate-x-full">
+    <div className="sidebar sidebar-mobile h-screen justify-start max-sm:fixed max-sm:-translate-x-full">
         <Logo />
         <UserMenu currentUser={currentUser} projects={projects} documents={documents}/>
         <Footer currentUser={currentUser} projectId={projectId}/>

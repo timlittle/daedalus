@@ -1,17 +1,17 @@
 import prisma from "@/app/libs/prismadb";
 
-export interface IDocumentsProjectParams {
-  projectId?: string;
+export interface IDocumentsUserParams {
+  userId: string;
 }
 
-export default async function getDocumentsByProjectId(params: IDocumentsProjectParams) {
+export default async function getDocumentsByUserId(params: IDocumentsUserParams) {
   try {
-    const { projectId } = params;
+    const { userId } = params;
 
     let query: any = {};
 
-    if (projectId) {
-      query.projectId = projectId;
+    if (userId) {
+      query.userId = userId;
     }
 
     const documents = await prisma.document.findMany({
@@ -19,6 +19,9 @@ export default async function getDocumentsByProjectId(params: IDocumentsProjectP
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        project: true
+      }
       
     });
     return documents;

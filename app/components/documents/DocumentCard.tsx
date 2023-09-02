@@ -21,7 +21,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
   onDelete,
   onEdit,
   disabled,
-  actionId,
+  actionId
 }) => {
   const router = useRouter();
 

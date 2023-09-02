@@ -30,18 +30,24 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <ul className='menu-items'>
         <li className='menu-item' onClick={()=> router.push('/projects')}>
             <AiOutlineFolder size={16} />
-            <div>Projects</div>
+            <div>My Projects</div>
         </li>
-        <li className='menu-item'>
+        <li className='menu-item' onClick={()=> router.push('/documents')}>
             <HiOutlineDocumentText size={16} />
-            <div>Documents</div>
+            <div>My Documents</div>
+        </li>
+        <li className='menu-item' onClick={()=> router.push('/documents/shared')}>
+            <HiOutlineDocumentText size={16} />
+            <div>Shared documents</div>
         </li>
     </ul>
     )
 
+    let pageContent;
+
     if (projects){
-        menuContent = (
-            <div className='menu-section'>
+        pageContent = (
+            <div className='menu-section overflow-scroll '>
                 <div className='menu-tile'>Projects</div>
                 <ul className='menu-items'>
                     {projects?.map((project)=>(
@@ -58,8 +64,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
             </div>
         )
     } else if (documents) {
-        menuContent = (
-            <div className='menu-section'>
+        pageContent = (
+            <div className='menu-section overflow-scroll'>
                 <div className='menu-tile'>Documents</div>
                 <ul className='menu-items'>
                     {documents?.map((document)=>(
@@ -91,11 +97,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
     }
 
     return (
-        <section className="sidebar-content h-fit overflow-visible py-0">
+        <section className="sidebar-content max-h-fit overflow-visible py-0">
             <div className='divider my-0' />
-            <nav className="nav rounded-md my-5">
+            <nav className="nav rounded-md my-2">
                 <section className='menu-section px-4'>
                     {menuContent}
+                    <div className='divider my-2' />
+                    {pageContent}
                 </section>
             </nav>
         </section>
