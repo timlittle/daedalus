@@ -74,7 +74,7 @@ const DocumentModal = () => {
   const onClose = useCallback(()=>{
     documentModal.onClose();
     reset();
-  },[])
+  },[documentModal, reset])
 
   // Setup default state for create
   let submitHandler = onCreate;

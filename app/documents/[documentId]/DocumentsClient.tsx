@@ -30,17 +30,22 @@ import markdownItTextualUml from "markdown-it-textual-uml";
 import { yCollab } from "y-codemirror.next";
 // @ts-ignore
 import RandomColor from "randomcolor";
+import ShareDocument from "@/app/components/documents/ShareDocument";
 
 interface DocumentClientProps {
   currentUser: SafeUser | null;
   document: Document;
   project: Project;
+  allUsers: SafeUser[] | [] 
+  sharedUsers: SafeUser[] | undefined
 }
 
 const DocumentClient = ({
   currentUser,
   document,
   project,
+  allUsers,
+  sharedUsers
 }: DocumentClientProps) => {
   const router = useRouter();
 
@@ -76,6 +81,7 @@ const DocumentClient = ({
     const provider = new TiptapCollabProvider({
       appId: "jkv8llmx",
       name: document.id,
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTM2NTUyNzAsIm5iZiI6MTY5MzY1NTI3MCwiZXhwIjoxNjkzNzQxNjcwLCJpc3MiOiJodHRwczovL2NvbGxhYi50aXB0YXAuZGV2IiwiYXVkIjoidGwxMDhAc3R1ZGVudC5sb25kb24uYWMudWsifQ.OQQhYeYBQSzzTRv3TQ-1JVAgXnb8E1YzmJXQwHI_3QU',
       document: doc,
     });
 
@@ -169,12 +175,6 @@ const DocumentClient = ({
           >
             <GiMaze size={30} />
             <div>Daedalus</div>
-          </div>
-          <div className="gap-4 navbar-center">
-            <div>{connectedUsers.current}</div>
-            <div className="title">{document.title}</div>
-          </div>
-          <div className="navbar-end gap-8">
             <div
               className="badge badge-flat-primary hover:cursor-pointer"
               onClick={() => {
@@ -183,7 +183,17 @@ const DocumentClient = ({
             >
               {project.title}
             </div>
-            {saveButton}
+          </div>
+          <div className="gap-4 navbar-center">
+            <div>{connectedUsers.current}</div>
+            <div className="title">{document.title}</div>
+          </div>
+          <div className="navbar-end gap-8">
+            <div className="flex gap-4">
+              <ShareDocument document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers}/>
+              {saveButton}
+
+            </div>
             <input
               className="hidden"
               value={editorMarkdown.contentText.toString()}
@@ -232,7 +242,7 @@ const DocumentClient = ({
           </div>
         </div>
       </ClientOnly>
-      <Autosave data={editorMarkdown.contentText.toString()} onSave={handleSubmit(onSave)} />
+      <Autosave data={editorMarkdown.contentText.toString()} onSave={handleSubmit(onSave)} interval={10000}/>
     </div>
   );
 };

@@ -1,13 +1,12 @@
 'use client';
 
+import { Project } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
-import { SafeUser } from "../types";
-import { Project } from "@prisma/client";
 import ProjectCard from "../components/projects/ProjectCard";
 import useProjectModal from "../hooks/useProjectModal";
 

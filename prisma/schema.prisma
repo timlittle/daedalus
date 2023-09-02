@@ -11,48 +11,48 @@ datasource db {
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String?
-  email String? @unique
-  emailVerified DateTime?
-  image String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
   hashedPassword String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  favoriteIds String[] @db.ObjectId
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  favoriteIds    String[]  @db.ObjectId
 
-  accounts Account[]
-  projects Project[]
-  documents Document[]
+  accounts               Account[]
+  projects               Project[]
+  documents              Document[]
+  userDocumentPermission UserDocumentPermission[]
 }
 
 model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId 
-  type String
-  provider String
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
   providerAccountId String
-  refresh_token String? @db.String
-  access_token String? @db.String
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.String
-  session_state String?
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-
 }
 
 model Project {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
   description String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String   @db.ObjectId
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -60,15 +60,25 @@ model Project {
 }
 
 model Document {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  content String?
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     String?
   description String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String @db.ObjectId
-  projectId String @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String   @db.ObjectId
+  projectId   String   @db.ObjectId
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userDocumentPermission UserDocumentPermission[]
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model UserDocumentPermission {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id])
+  documentId String   @db.ObjectId
+  document   Document @relation(fields: [documentId], references: [id])
 }

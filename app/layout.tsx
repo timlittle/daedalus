@@ -7,6 +7,7 @@ import ProjectModal from './components/modals/ProjectModal'
 import RegisterModal from './components/modals/RegisterModal'
 import './globals.css'
 import ToasterProvider from './providers/ToastProvider'
+import ShareModal from './components/modals/ShareModal'
 
 const font = Nunito({ subsets: ['latin'] })
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
             <RegisterModal />
             <ProjectModal />
             <DocumentModal />
+            <ShareModal />
           </ClientOnly>
           {children}
       </body>

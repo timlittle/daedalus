@@ -70,7 +70,7 @@ const ProjectModal = () => {
   const onClose = useCallback(()=>{
     projectModal.onClose();
     reset();
-  },[])
+  },[projectModal,reset])
 
   // Setup default state for create
   let submitHandler = onCreate;
