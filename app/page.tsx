@@ -23,8 +23,8 @@ export default async function Home() {
   const stories = [
     <Story
       key={14}
-      title="Profile page added"
-      description="New profile page has been added. This page displays information about your Dedalus user and when you account was created."
+      title="Profile page added + line wrapping"
+      description="New profile page has been added. This page displays information about your Dedalus user and when you account was created. On the editor page, line wrapping has been enabled to prevent horizontal scrolling in the UI when typing long lines of text."
       dateString="2023-09-03"
     />,
     <Story

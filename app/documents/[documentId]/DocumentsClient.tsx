@@ -20,6 +20,7 @@ import { toast } from "react-hot-toast";
 import { GiMaze } from "react-icons/gi";
 import { TiptapCollabProvider } from "@hocuspocus/provider";
 import ShareDocument from "@/app/components/documents/ShareDocument";
+import {EditorView} from '@codemirror/view'
 
 // @ts-ignore
 import { Autosave } from  'react-autosave';
@@ -59,7 +60,10 @@ const DocumentClient = ({
   const [isLoading, setIsLoading] = useState(false);
   const connectedUsers = useRef(0);
 
-  let extensions = useMemo(() => [markdown({ base: markdownLanguage, codeLanguages: languages })],[]);
+  let extensions = useMemo(() => [
+    markdown({ base: markdownLanguage, codeLanguages: languages }),
+    EditorView.lineWrapping
+  ],[]);
 
   const md = require("markdown-it")({
     highlight: function (code: string, lang: string) {
