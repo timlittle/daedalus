@@ -32,6 +32,8 @@ import markdownItTextualUml from "markdown-it-textual-uml";
 import { yCollab } from "y-codemirror.next";
 // @ts-ignore
 import RandomColor from "randomcolor";
+import DownloadDocument from "@/app/components/documents/DownloadDocument";
+import useEditorText from "@/app/hooks/useEditorText";
 
 interface DocumentClientProps {
   currentUser: SafeUser | null;
@@ -55,6 +57,7 @@ const DocumentClient = ({
   const initalMarkdown = document.content ? document.content : `# ${document.title}`;
 
   const store = syncedStore({ contentText: "text" });
+  const editorStateText = useEditorText();
   const providerInitalised = useRef(false);
   const editorMarkdown = useSyncedStore(store);
   const [isLoading, setIsLoading] = useState(false);
@@ -109,6 +112,7 @@ const DocumentClient = ({
         connectedUsers.current === 0
       ) {
         editorMarkdown.contentText.insert(0, initalMarkdown);
+        editorStateText.setContent(initalMarkdown);
       }
     });
 
@@ -126,7 +130,8 @@ const DocumentClient = ({
     store,
     extensions,
     currentUser,
-    jwtToken
+    jwtToken,
+    editorStateText
   ]);
 
   const {
@@ -159,6 +164,7 @@ const DocumentClient = ({
   };
 
   const onChange = (markdown: string) => {
+    editorStateText.setContent(markdown);
     setValue("content", markdown);
   };
 
@@ -197,6 +203,7 @@ const DocumentClient = ({
           </div>
           <div className="navbar-end gap-8">
             <div className="flex gap-4">
+              <DownloadDocument documentTitle={document.title} />
               <ShareDocument document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers}/>
               {saveButton}
 

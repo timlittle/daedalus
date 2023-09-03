@@ -22,6 +22,12 @@ export default async function Home() {
 
   const stories = [
     <Story
+      key={15}
+      title="Download markdown files"
+      description="Users can now download documents onto their local machine using the new 'Download' button in the Editor. This pushes the code from the editor into a markdown file for the user to upload to their code repository."
+      dateString="2023-09-03"
+    />,
+    <Story
       key={14}
       title="Profile page added + line wrapping"
       description="New profile page has been added. This page displays information about your Dedalus user and when you account was created. On the editor page, line wrapping has been enabled to prevent horizontal scrolling in the UI when typing long lines of text."
