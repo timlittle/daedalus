@@ -47,7 +47,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     if (projects){
         pageContent = (
-            <div className='menu-section overflow-scroll '>
+            <div className='menu-section overflow-scroll max-h-10 md:max-h-30 lg:max-h-40 xl:max-h-52 2xl:max-h-full'>
                 <div className='menu-tile'>Projects</div>
                 <ul className='menu-items'>
                     {projects?.map((project)=>(
@@ -65,7 +65,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         )
     } else if (documents) {
         pageContent = (
-            <div className='menu-section overflow-scroll'>
+            <div className='menu-section overflow-scroll max-h-full'>
                 <div className='menu-tile'>Documents</div>
                 <ul className='menu-items'>
                     {documents?.map((document)=>(

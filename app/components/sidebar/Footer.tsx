@@ -69,9 +69,9 @@ if (projectId) {
 
   return (
     <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
-      {/* <div className="text-rose-400 flex justify-center items-center">
+      <div className="text-rose-400 flex justify-center items-center">
         <Heading title={`${Math.floor(diffDays)} days remaining`}/>
-      </div> */}
+      </div>
       {createButton}
 
       <div className="divider my-0" />
@@ -98,26 +98,11 @@ if (projectId) {
           </div>
         </label>
         <div className="dropdown-menu dropdown-menu-right-top ml-2">
-          <div 
-            tabIndex={-1}
-            className="dropdown-item text-sm"
-            onClick={()=> router.push('/profile')}>
-            Profile
-            </div>
-          <div
-            tabIndex={-1}
-            className="dropdown-item text-sm"
-            onClick={()=> router.push('/projects')}
-          >
-            My Projects
-          </div>
-          <div
-            tabIndex={-1}
-            className="dropdown-item text-sm"
-            onClick={() => signOut()}
-          >
-            Logout
-          </div>
+          <div tabIndex={-1} className="dropdown-item text-sm" onClick={()=> router.push('/profile')}> Profile</div>
+          <div tabIndex={-1} className="dropdown-item text-sm" onClick={()=> router.push('/projects')}>My Projects</div>
+          <div tabIndex={-1} className="dropdown-item text-sm" onClick={()=> router.push('/documents')}>My Documents</div>
+          <div tabIndex={-1} className="dropdown-item text-sm" onClick={()=> router.push('/documents/shared')}>Shared documents</div>
+          <div tabIndex={-1} className="dropdown-item text-sm" onClick={() => signOut()} > Logout</div>
         </div>
       </div>
     </section>

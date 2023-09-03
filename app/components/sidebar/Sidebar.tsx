@@ -20,8 +20,8 @@ const Sidebar: React.FC<SideBarProps> = ({
   projectId
 }) => {
   return (
-    <div className='w-full max-w-[18rem]'>
-      <div className="sidebar sidebar-mobile sidebar-fixed-left h-screen justify-start max-sm:fixed max-sm:-translate-x-full">
+    <div className='w-full max-w-[18rem] max-h-screen'>
+      <div className="sidebar sidebar-mobile sidebar-fixed-left justify-start max-sm:fixed max-sm:-translate-x-full">
           <Logo />
           <UserMenu currentUser={currentUser} projects={projects} documents={documents}/>
           <Footer currentUser={currentUser} projectId={projectId}/>

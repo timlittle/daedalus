@@ -22,6 +22,12 @@ export default async function Home() {
 
   const stories = [
     <Story
+      key={14}
+      title="Profile page added"
+      description="New profile page has been added. This page displays information about your Dedalus user and when you account was created."
+      dateString="2023-09-03"
+    />,
+    <Story
       key={13}
       title="News feed added"
       description="The homepage has been updated to include a newsfeed for the development of Daedalus. Feedback from beta testers of the platform indicated they would like more visibility into the updates that are occuring on the application. The newfeed acts as a mechnism to provide testers with a single entry point to understand the latest updates. "
@@ -124,11 +130,11 @@ export default async function Home() {
       currentUser={currentUser}
       body={
         <div className="flex flex-col w-full flex-grow">
-          <div className="flex flex-row my-8 item-center justify-center">
+          <div className="flex flex-row item-center justify-center text-2xl font-bold sm:pt-14 py-4">
             <Heading title="Welcome to Daedalus" />
           </div>
           <div className="flex divide-y divide-gray-700 flex-col">
-            <div className="space-y-2 pb-2 pt-6 md:space-y-5">
+            <div className="space-y-2 pb-2 pt-2 md:space-y-5">
               <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-100 sm:text-4xl md:leading-14">
                 Newsfeed
               </h1>
