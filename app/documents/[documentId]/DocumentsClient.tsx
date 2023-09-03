@@ -19,6 +19,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { GiMaze } from "react-icons/gi";
 import { TiptapCollabProvider } from "@hocuspocus/provider";
+import ShareDocument from "@/app/components/documents/ShareDocument";
 
 // @ts-ignore
 import { Autosave } from  'react-autosave';
@@ -30,12 +31,12 @@ import markdownItTextualUml from "markdown-it-textual-uml";
 import { yCollab } from "y-codemirror.next";
 // @ts-ignore
 import RandomColor from "randomcolor";
-import ShareDocument from "@/app/components/documents/ShareDocument";
 
 interface DocumentClientProps {
   currentUser: SafeUser | null;
   document: Document;
   project: Project;
+  jwtToken: string;
   allUsers: SafeUser[] | [] 
   sharedUsers: SafeUser[] | undefined
 }
@@ -44,6 +45,7 @@ const DocumentClient = ({
   currentUser,
   document,
   project,
+  jwtToken,
   allUsers,
   sharedUsers
 }: DocumentClientProps) => {
@@ -81,7 +83,7 @@ const DocumentClient = ({
     const provider = new TiptapCollabProvider({
       appId: "jkv8llmx",
       name: document.id,
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTM2NTUyNzAsIm5iZiI6MTY5MzY1NTI3MCwiZXhwIjoxNjkzNzQxNjcwLCJpc3MiOiJodHRwczovL2NvbGxhYi50aXB0YXAuZGV2IiwiYXVkIjoidGwxMDhAc3R1ZGVudC5sb25kb24uYWMudWsifQ.OQQhYeYBQSzzTRv3TQ-1JVAgXnb8E1YzmJXQwHI_3QU',
+      token: jwtToken,
       document: doc,
     });
 
@@ -120,6 +122,7 @@ const DocumentClient = ({
     store,
     extensions,
     currentUser,
+    jwtToken
   ]);
 
   const {

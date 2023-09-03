@@ -9,6 +9,9 @@ import EmptyState from "@/app/components/EmptyState";
 import { SafeUser } from "@/app/types";
 import dynamic from "next/dynamic";
 
+// @ts-ignore
+import jsonwebtoken from 'jsonwebtoken'
+
 interface IDocumentParams {
   documentId: string;
 }
@@ -22,6 +25,9 @@ const DocumentPage = async ({params}: {params: IDocumentParams}) => {
     const project = await getProjectById({projectId: document?.projectId});
     const allUsers = await getAllUsers();
     const sharedUsers = await getAllSharedUsers({documentId: documentId, ownerId: document?.userId});
+
+    const jwtSecret = await process.env.TIPTAP_JWT_SECRET;
+    const jwtToken = jsonwebtoken.sign({},jwtSecret);
 
     if (!document || !project || !currentUser) {
       return <AppContainer currentUser={currentUser} body={<EmptyState title="Error" subtitle="An error occured"/>} />;
@@ -54,7 +60,7 @@ const DocumentPage = async ({params}: {params: IDocumentParams}) => {
     const DocumentClientNoSrr = dynamic(() => import('./DocumentsClient'), {ssr: false})
 
     return (
-        <DocumentClientNoSrr currentUser={currentUser} document={document} project={project} allUsers={allUsers} sharedUsers={sharedUsers}/>
+        <DocumentClientNoSrr currentUser={currentUser} document={document} project={project} allUsers={allUsers} sharedUsers={sharedUsers} jwtToken={jwtToken}/>
       );
 }
  
