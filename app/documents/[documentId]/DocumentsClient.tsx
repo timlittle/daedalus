@@ -227,7 +227,7 @@ const DocumentClient = ({
         </div>
       </ClientOnly>
       <ClientOnly>
-        <div className="w-full h-screen overflow-y-scroll grid grid-cols-1 sm:grid-cols-2">
+        <div className="w-full h-screen grid grid-cols-1 sm:grid-cols-2">
           <div className="border-r-2 border-gray-5">
             <CodeMirror
               extensions={extensions}
@@ -235,10 +235,10 @@ const DocumentClient = ({
               onChange={onChange}
             />
           </div>
-          <div className="bg-gray-4 relative">
+          <div className="bg-gray-4 relative overflow-scroll">
             <div className="absolute top-0 right-0 text-xs">Preview</div>
             <div
-              className="prose prose-invert p-10"
+              className="prose prose-invert p-10 leading-6 prose-code:leading-6 prose-headings:mt-7"
               dangerouslySetInnerHTML={{ __html: parsedMarkdown }}
             ></div>
           </div>
