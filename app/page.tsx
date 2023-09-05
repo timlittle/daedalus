@@ -10,17 +10,16 @@ export default async function Home() {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return (
-      <AppContainer
-        currentUser={currentUser}
-        body={
-          <EmptyState title="Welcome to Daedalus" subtitle="Please sign in" />
-        }
-      />
-    );
+    return <AppContainer currentUser={currentUser} body={<EmptyState title="Welcome to Daedalus" subtitle="Please sign in" />} />;
   }
 
   const stories = [
+    <Story
+      key={16}
+      title="Sync documents with Github!!🎉"
+      description="Users can syncronise documents from Daedalus into their Github Repos. To do this, users must first install the Daedlus Github application by going to their Daedalus Profile and clicking 'Connect to Github'. Users can select which repos to give Daedalus access to. Once connected to Github, users can navigate to a document and click the Sync button. "
+      dateString="2023-09-05"
+    />,
     <Story
       key={15}
       title="Download markdown files"
@@ -141,9 +140,7 @@ export default async function Home() {
           </div>
           <div className="flex divide-y divide-gray-700 flex-col">
             <div className="space-y-2 pb-2 pt-2 md:space-y-5">
-              <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-100 sm:text-4xl md:leading-14">
-                Newsfeed
-              </h1>
+              <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-100 sm:text-4xl md:leading-14">Newsfeed</h1>
             </div>
             <ul className="divide-y divide-gray-700 w-full">
               <li className="py-8">{stories.map((story) => story)}</li>

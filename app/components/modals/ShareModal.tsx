@@ -1,6 +1,7 @@
 "use client";
 
 import useShareModal from "@/app/hooks/useShareModal";
+import { SafeUser } from "@/app/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -8,15 +9,13 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Heading from "../Heading";
 import Modal from "./Modal";
-import { User } from "@prisma/client";
-import { SafeUser } from "@/app/types";
 
 const ShareModal = () => {
   const router = useRouter();
-  const shareModal =  useShareModal();
+  const shareModal = useShareModal();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [shareableUser, setShareableUser] = useState<SafeUser[]>([])
+  const [shareableUser, setShareableUser] = useState<SafeUser[]>([]);
   const [shareDocument, setShareDocument] = useState("");
 
   const {
@@ -51,42 +50,33 @@ const ShareModal = () => {
       });
   };
 
-  const onClose = useCallback(()=>{
+  const onClose = useCallback(() => {
     shareModal.onClose();
     reset();
-  },[shareModal, reset])
+  }, [shareModal, reset]);
 
   // Setup default state for create
   let submitHandler = onCreate;
   let actionLabel = "Create";
-  let heading = (
-    <Heading
-      title="Share the document"
-      subtitle="Select a users to collaborate on this document with"
-    />
-  );
+  let heading = <Heading title="Share the document" subtitle="Select a users to collaborate on this document with" />;
 
-
-  useEffect(()=>{
+  useEffect(() => {
     // Work out which users are not already shared
-    let availibleUsers = [...shareModal.allUsers]
-  
-    shareModal.sharedUsers.map((sharedUser)=>{
+    let availibleUsers = [...shareModal.allUsers];
+
+    shareModal.sharedUsers.map((sharedUser) => {
       for (var i = 0; i < availibleUsers.length; i++) {
-        if (availibleUsers[i].id === sharedUser.id){
-          availibleUsers.splice(i,1);
+        if (availibleUsers[i].id === sharedUser.id) {
+          availibleUsers.splice(i, 1);
           break;
         }
       }
-    })
+    });
 
     setShareableUser(availibleUsers);
     setShareDocument(shareModal.documentId);
     setValue("documentId", shareDocument);
-
-
-  },[shareModal,setValue,shareDocument])
-
+  }, [shareModal, setValue, shareDocument]);
 
   // Body of the form
   const bodyContent = (
@@ -102,9 +92,12 @@ const ShareModal = () => {
             </tr>
           </thead>
           <tbody>
-            {shareModal.sharedUsers.map((user)=>(
+            {shareModal.sharedUsers.map((user) => (
               <tr key={user.id}>
-                <th>{user.name}<div className="text-xs">{user.email}</div></th>
+                <th>
+                  {user.name}
+                  <div className="text-xs">{user.email}</div>
+                </th>
                 <th>Contributor</th>
               </tr>
             ))}
@@ -113,14 +106,19 @@ const ShareModal = () => {
       </div>
       <div className="flex flex-row gap-8">
         <div className="flex title text-center items-center justify-center">Add user:</div>
-        <select {...register("userId", {required: true})} className={`
+        <select
+          {...register("userId", { required: true })}
+          className={`
         select
-        ${errors["userId"] ? 'border-rose-500' : 'border-neutral-300'}
-        ${errors["userId"] ? 'focus:border-rose-500' : 'focus:border-black'}
-        `}>
-          {shareableUser.map((user)=>(
-            <option value={user.id} key={user.id}>{user.name}</option>
-          ))}      
+        ${errors["userId"] ? "border-rose-500" : "border-neutral-300"}
+        ${errors["userId"] ? "focus:border-rose-500" : "focus:border-black"}
+        `}
+        >
+          {shareableUser.map((user) => (
+            <option value={user.id} key={user.id}>
+              {user.name}
+            </option>
+          ))}
         </select>
       </div>
     </div>

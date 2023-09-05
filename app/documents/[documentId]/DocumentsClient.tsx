@@ -4,7 +4,7 @@ import ClientOnly from "@/app/components/ClientOnly";
 import { SafeUser } from "@/app/types";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
-import { Document, Project } from "@prisma/client";
+import { Document, GithubAuthZ, Project } from "@prisma/client";
 import syncedStore, { getYjsDoc } from "@syncedstore/core";
 import { useSyncedStore } from "@syncedstore/react";
 import { githubDark } from "@uiw/codemirror-theme-github";
@@ -20,10 +20,10 @@ import { toast } from "react-hot-toast";
 import { GiMaze } from "react-icons/gi";
 import { TiptapCollabProvider } from "@hocuspocus/provider";
 import ShareDocument from "@/app/components/documents/ShareDocument";
-import {EditorView} from '@codemirror/view'
+import { EditorView } from "@codemirror/view";
 
 // @ts-ignore
-import { Autosave } from  'react-autosave';
+import { Autosave } from "react-autosave";
 // @ts-ignore
 import markdownItMermaid from "@md-reader/markdown-it-mermaid";
 // @ts-ignore
@@ -34,14 +34,18 @@ import { yCollab } from "y-codemirror.next";
 import RandomColor from "randomcolor";
 import DownloadDocument from "@/app/components/documents/DownloadDocument";
 import useEditorText from "@/app/hooks/useEditorText";
+import SyncDocumentToGit from "@/app/components/documents/SyncDocumentToGit";
 
 interface DocumentClientProps {
   currentUser: SafeUser | null;
   document: Document;
   project: Project;
   jwtToken: string;
-  allUsers: SafeUser[] | [] 
-  sharedUsers: SafeUser[] | undefined
+  allUsers: SafeUser[] | [];
+  sharedUsers: SafeUser[] | undefined;
+  githubAuthZ?: GithubAuthZ | null;
+  githubOwner?: string;
+  githubRepos?: string[];
 }
 
 const DocumentClient = ({
@@ -50,7 +54,10 @@ const DocumentClient = ({
   project,
   jwtToken,
   allUsers,
-  sharedUsers
+  sharedUsers,
+  githubAuthZ,
+  githubOwner,
+  githubRepos,
 }: DocumentClientProps) => {
   const router = useRouter();
 
@@ -63,10 +70,12 @@ const DocumentClient = ({
   const [isLoading, setIsLoading] = useState(false);
   const connectedUsers = useRef(0);
 
-  let extensions = useMemo(() => [
-    markdown({ base: markdownLanguage, codeLanguages: languages }),
-    EditorView.lineWrapping
-  ],[]);
+  let extensions = useMemo(() => [markdown({ base: markdownLanguage, codeLanguages: languages }), EditorView.lineWrapping], []);
+  let displayGithubSync = true;
+
+  if (!githubOwner || !githubRepos || !githubAuthZ) {
+    displayGithubSync = false;
+  }
 
   const md = require("markdown-it")({
     highlight: function (code: string, lang: string) {
@@ -75,6 +84,7 @@ const DocumentClient = ({
     },
   })
     .use(markdownItTextualUml)
+    .use(require("markdown-it-checkbox"))
     .use(markdownItMermaid, {
       theme: "dark",
       flowchart: { useMaxWidth: true },
@@ -107,10 +117,7 @@ const DocumentClient = ({
     });
 
     provider.on("synced", () => {
-      if (
-        editorMarkdown.contentText.toString() === "" &&
-        connectedUsers.current === 0
-      ) {
+      if (editorMarkdown.contentText.toString() === "" && connectedUsers.current === 0) {
         editorMarkdown.contentText.insert(0, initalMarkdown);
         editorStateText.setContent(initalMarkdown);
       }
@@ -123,16 +130,7 @@ const DocumentClient = ({
     return () => {
       provider.disconnect();
     };
-  }, [
-    initalMarkdown,
-    editorMarkdown,
-    document.id,
-    store,
-    extensions,
-    currentUser,
-    jwtToken,
-    editorStateText
-  ]);
+  }, [initalMarkdown, editorMarkdown, document.id, store, extensions, currentUser, jwtToken, editorStateText]);
 
   const {
     register,
@@ -182,10 +180,7 @@ const DocumentClient = ({
     <div className="flex flex-col h-screen">
       <ClientOnly>
         <div className="navbar rounded-lg">
-          <div
-            className="navbar-start gap-4 hover:cursor-pointer"
-            onClick={() => router.push("/")}
-          >
+          <div className="navbar-start gap-4 hover:cursor-pointer" onClick={() => router.push("/")}>
             <GiMaze size={30} />
             <div>Daedalus</div>
             <div
@@ -204,23 +199,29 @@ const DocumentClient = ({
           <div className="navbar-end gap-8">
             <div className="flex gap-4">
               <DownloadDocument documentTitle={document.title} />
-              <ShareDocument document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers}/>
+              <ShareDocument document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers} />
+              {displayGithubSync && <SyncDocumentToGit documentTitle={document.title} githubOwner={githubOwner} githubRepos={githubRepos} />}
               {saveButton}
-
             </div>
-            <input
-              className="hidden"
-              value={editorMarkdown.contentText.toString()}
-              {...register("content")}
-            />
+            <input className="hidden" value={editorMarkdown.contentText.toString()} {...register("content")} />
             <div className="navbar-item dropdown">
               <div tabIndex={0}>Menu</div>
               <div className="dropdown-menu">
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/projects")}> Projects </div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents")}> Documents </div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents/shared")}> Shared Documents </div>
-                <div tabIndex={-1} className="dropdown-item">Profile</div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => signOut()}>Logout </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/projects")}>
+                  Projects
+                </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents")}>
+                  Documents
+                </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents/shared")}>
+                  Shared Documents
+                </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/profile")}>
+                  Profile
+                </div>
+                <div tabIndex={-1} className="dropdown-item" onClick={() => signOut()}>
+                  Logout
+                </div>
               </div>
             </div>
           </div>
@@ -229,11 +230,7 @@ const DocumentClient = ({
       <ClientOnly>
         <div className="w-full h-screen grid grid-cols-1 sm:grid-cols-2">
           <div className="border-r-2 border-gray-5">
-            <CodeMirror
-              extensions={extensions}
-              theme={githubDark}
-              onChange={onChange}
-            />
+            <CodeMirror extensions={extensions} theme={githubDark} onChange={onChange} />
           </div>
           <div className="bg-gray-4 relative overflow-scroll">
             <div className="absolute top-0 right-0 text-xs">Preview</div>
@@ -244,7 +241,7 @@ const DocumentClient = ({
           </div>
         </div>
       </ClientOnly>
-      <Autosave data={editorMarkdown.contentText.toString()} onSave={handleSubmit(onSave)} interval={10000}/>
+      <Autosave data={editorMarkdown.contentText.toString()} onSave={handleSubmit(onSave)} interval={10000} />
     </div>
   );
 };

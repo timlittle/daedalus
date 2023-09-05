@@ -25,6 +25,7 @@ model User {
   projects               Project[]
   documents              Document[]
   userDocumentPermission UserDocumentPermission[]
+  githubAuthZ            GithubAuthZ[]
 }
 
 model Account {
@@ -81,4 +82,14 @@ model UserDocumentPermission {
   user       User     @relation(fields: [userId], references: [id])
   documentId String   @db.ObjectId
   document   Document @relation(fields: [documentId], references: [id])
+}
+
+model GithubAuthZ {
+  id                    String @id @default(auto()) @map("_id") @db.ObjectId
+  userId                String @db.ObjectId
+  user                  User   @relation(fields: [userId], references: [id])
+  accessToken           String
+  expiresAt             Int
+  refreshToken          String
+  refreshTokenExpiresAt Int
 }
