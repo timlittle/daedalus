@@ -14,7 +14,7 @@ const DocumentModal = () => {
   const router = useRouter();
   const documentModal = useDocumentModal();
   const [isLoading, setIsLoading] = useState(false);
-  const {projectId } = useParams();
+  const { projectId } = useParams();
 
   const {
     register,
@@ -30,7 +30,7 @@ const DocumentModal = () => {
       description: "",
     },
   });
-  
+
   const onCreate: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
@@ -71,20 +71,15 @@ const DocumentModal = () => {
       });
   };
 
-  const onClose = useCallback(()=>{
+  const onClose = useCallback(() => {
     documentModal.onClose();
     reset();
-  },[documentModal, reset])
+  }, [documentModal, reset]);
 
   // Setup default state for create
   let submitHandler = onCreate;
   let actionLabel = "Create";
-  let heading = (
-    <Heading
-      title="Create a new document"
-      subtitle="A document to collaborate on"
-    />
-  );
+  let heading = <Heading title="Create a new document" subtitle="A document to collaborate on" />;
 
   // If we are updating
   if (documentModal.isEdit) {

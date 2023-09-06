@@ -67,20 +67,15 @@ const ProjectModal = () => {
       });
   };
 
-  const onClose = useCallback(()=>{
+  const onClose = useCallback(() => {
     projectModal.onClose();
     reset();
-  },[projectModal,reset])
+  }, [projectModal, reset]);
 
   // Setup default state for create
   let submitHandler = onCreate;
   let actionLabel = "Create";
-  let heading = (
-    <Heading
-      title="Create a new project"
-      subtitle="A project is a collection of documents that contribute to a project"
-    />
-  );
+  let heading = <Heading title="Create a new project" subtitle="A project is a collection of documents that contribute to a project" />;
 
   // If we are updating
   if (projectModal.isEdit) {

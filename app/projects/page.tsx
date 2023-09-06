@@ -8,38 +8,12 @@ const ProjectsPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return (
-      <AppContainer
-        currentUser={currentUser}
-        body={<EmptyState title="Unauthorized" subtitle="Please log in" />}
-      />
-    );
+    return <AppContainer currentUser={currentUser} body={<EmptyState title="Unauthorized" subtitle="Please log in" />} />;
   }
 
-  const projects = await getProjects({userId: currentUser.id });
+  const projects = await getProjects({ userId: currentUser.id });
 
-  if (projects.length === 0) {
-    return (
-      <AppContainer
-        currentUser={currentUser}
-        projects={projects}
-        body={
-          <EmptyState
-            title="No projects found"
-            subtitle="Looks like you have no prjects"
-          />
-        }
-      />
-    );
-  }
-
-  return (
-    <AppContainer
-      currentUser={currentUser}
-      projects={projects}
-      body={<ProjectsClient projects={projects}/>}
-    />
-  );
+  return <AppContainer currentUser={currentUser} projects={projects} body={<ProjectsClient projects={projects} />} />;
 };
 
 export default ProjectsPage;

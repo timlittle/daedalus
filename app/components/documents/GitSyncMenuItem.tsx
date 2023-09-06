@@ -1,15 +1,17 @@
+"use client";
 import useGithubSyncModal from "@/app/hooks/useGithubSyncModal";
 import { useCallback } from "react";
 import { PiGithubLogoFill } from "react-icons/pi";
 import { snakeCase } from "snake-case";
+import MenuItem from "../navbar/MenuItem";
 
-interface SyncDocumentToGitProps {
+interface GitSyncMenuItemProps {
   documentTitle: string;
   githubOwner: string | undefined;
   githubRepos: string[] | undefined;
 }
 
-const SyncDocumentToGit: React.FC<SyncDocumentToGitProps> = ({ documentTitle, githubOwner = "", githubRepos = [] }) => {
+const GitSyncMenuItem: React.FC<GitSyncMenuItemProps> = ({ documentTitle, githubOwner = "", githubRepos = [] }) => {
   const githubSyncModal = useGithubSyncModal();
 
   const onOpen = useCallback(() => {
@@ -19,12 +21,7 @@ const SyncDocumentToGit: React.FC<SyncDocumentToGitProps> = ({ documentTitle, gi
     githubSyncModal.onOpen();
   }, [githubSyncModal, githubOwner, githubRepos, documentTitle]);
 
-  return (
-    <div className="btn btn-primary" onClick={onOpen}>
-      <PiGithubLogoFill />
-      <div>Sync</div>
-    </div>
-  );
+  return <MenuItem action={onOpen} actionLabel="Sync to GitHub" icon={PiGithubLogoFill} />;
 };
 
-export default SyncDocumentToGit;
+export default GitSyncMenuItem;

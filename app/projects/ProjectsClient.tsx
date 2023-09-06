@@ -7,9 +7,9 @@ import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
+import Card from "../components/cards/Card";
 import ProjectCard from "../components/cards/ProjectCard";
 import useProjectModal from "../hooks/useProjectModal";
-import Card from "../components/cards/Card";
 
 interface ProjectsClientProps {
   projects: Project[];

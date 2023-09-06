@@ -15,15 +15,21 @@ export default async function Home() {
 
   const stories = [
     <Story
+    key={17}
+    title="Improved Mobile experience"
+    description="Updates to the mobile navigation bar, navigation in the Editor and adding buttons on the project and documents pages for creation. Button availible in the mobile experience. Buttons from the main navigation bar in the Editor moved to the menu"
+    dateString="2023-09-06"
+  />,
+    <Story
       key={16}
       title="Sync documents with Github!!🎉"
-      description="Users can syncronise documents from Daedalus into their Github Repos. To do this, users must first install the Daedlus Github application by going to their Daedalus Profile and clicking 'Connect to Github'. Users can select which repos to give Daedalus access to. Once connected to Github, users can navigate to a document and click the Sync button. "
+      description="Users can syncronise documents from Daedalus into their Github Repos. To do this, users must first install the Daedlus Github application by going to their Daedalus Profile (/profile_) and clicking 'Connect to Github'. Users can select which repos to give Daedalus access to. Once connected to Github, users can navigate to a document and click the 'Sync to Github' button in the Menu. "
       dateString="2023-09-05"
     />,
     <Story
       key={15}
       title="Download markdown files"
-      description="Users can now download documents onto their local machine using the new 'Download' button in the Editor. This pushes the code from the editor into a markdown file for the user to upload to their code repository."
+      description="Users can now download documents onto their local machine using the new 'Download' button in the Editor Menu. This pushes the code from the editor into a markdown file for the user to upload to their code repository."
       dateString="2023-09-03"
     />,
     <Story

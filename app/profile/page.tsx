@@ -7,12 +7,17 @@ import ProfileClient from "./ProfileClient";
 export default async function Profile() {
   const currentUser = await getCurrentUser();
 
-  const githubAppName = process.env.GITHUB_APP_NAME
+  const githubAppName = process.env.GITHUB_APP_NAME;
 
   if (!currentUser || !githubAppName) {
     return <AppContainer currentUser={currentUser} body={<EmptyState title="Unauthorized" subtitle="Please sign in" />} />;
   }
   const githubAuthZ = await getGithubAuthZByUserId({ userId: currentUser.id });
 
-  return <AppContainer currentUser={currentUser} body={<ProfileClient currentUser={currentUser} githubAuthZ={githubAuthZ} githubAppName={githubAppName}/>} />;
+  return (
+    <AppContainer
+      currentUser={currentUser}
+      body={<ProfileClient currentUser={currentUser} githubAuthZ={githubAuthZ} githubAppName={githubAppName} />}
+    />
+  );
 }

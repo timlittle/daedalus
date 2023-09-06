@@ -12,34 +12,20 @@ interface IParams {
 const ProjectPage = async ({ params }: { params: IParams }) => {
   const currentUser = await getCurrentUser();
   const { projectId } = params;
-  const project = await getProjectById({projectId: projectId});
+  const project = await getProjectById({ projectId: projectId });
 
   if (!project || !currentUser) {
     return <AppContainer currentUser={currentUser} body={<EmptyState />} />;
   }
 
-  const documents = await getDocumentsByProjectId({projectId: project.id});
-
-  if (documents.length == 0) {
-    return (
-      <AppContainer 
-        currentUser={currentUser}
-        projectId={projectId}
-        body={
-        <EmptyState title="No documents found" subtitle="Start by clicking New Document"/>
-      }
-      />
-    )
-  }
+  const documents = await getDocumentsByProjectId({ projectId: project.id });
 
   return (
     <AppContainer
       currentUser={currentUser}
       documents={documents}
       projectId={projectId}
-      body={
-        <ProjectPageClient projectTitle={project.title} documents={documents} />
-      }
+      body={<ProjectPageClient projectTitle={project.title} documents={documents} />}
     />
   );
 };

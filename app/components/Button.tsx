@@ -1,40 +1,32 @@
-'use client';
+"use client";
 
-import {IconType} from 'react-icons';
+import { IconType } from "react-icons";
 
 interface ButtonProps {
-    label: string;
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    disabled?: boolean;
-    outline?: boolean;
-    small?: boolean;
-    icon?: IconType;
+  label: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+  outline?: boolean;
+  small?: boolean;
+  icon?: IconType;
 }
 
-
-const Button: React.FC<ButtonProps> = ({
-    label,
-    onClick,
-    disabled,
-    outline,
-    icon: Icon
-}) => {
-    return (
-        <button 
-        onClick={onClick}
-        disabled={disabled}
-        className={`    
+const Button: React.FC<ButtonProps> = ({ label, onClick, disabled, outline, icon: Icon }) => {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`    
             btn
             w-full
-            ${outline ? 'btn-outline-primary' : 'btn-primary'}
+            ${outline ? "btn-outline-primary" : "btn-primary"}
 
-        `}>
-            {Icon && (
-                <Icon size={24} className="absolute left-4" />
-            )}
-            {label}
-        </button>
-     );
-}
- 
+        `}
+    >
+      {Icon && <Icon size={24} className="absolute left-4" />}
+      {label}
+    </button>
+  );
+};
+
 export default Button;

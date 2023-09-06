@@ -4,8 +4,8 @@ import { Project } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useDetectClickOutside } from "react-detect-click-outside";
+import { AiFillFolder } from "react-icons/ai";
 import { PiDotsThreeOutlineVertical } from "react-icons/pi";
-import { AiFillFolder } from 'react-icons/ai';
 
 interface ProjectCardProps {
   data: Project;
@@ -16,13 +16,7 @@ interface ProjectCardProps {
   actionId: string;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  data,
-  onDelete,
-  onEdit,
-  disabled,
-  actionId,
-}) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ data, onDelete, onEdit, disabled, actionId }) => {
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -51,20 +45,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const handleEdit = () => {
     toggle();
     onEdit?.();
-  }
+  };
 
-  const ref = useDetectClickOutside({ 
+  const ref = useDetectClickOutside({
     onTriggered: toggle,
-    disableKeys: true
+    disableKeys: true,
   });
 
   return (
     <div className="card col-span-1 group max-w-none sm:max-w-[24rem] lg:h-36 xl:h-56 hover:scale-105">
       <div className="flex flex-col gap-2 w-full grow">
-        <div className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80 select-none sm:select-auto" onClick={() => { router.push(`/projects/${data.id}`); }}>
+        <div
+          className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80 select-none sm:select-auto"
+          onClick={() => {
+            router.push(`/projects/${data.id}`);
+          }}
+        >
           <div className="card-header">{data.title}</div>
-          <div className="text-content-2">{data.description.substring(0,50)}{data.description.length > 50 && '...'}</div>
-          <div className="absolute top-3 right-3"><AiFillFolder size={16} /></div>
+          <div className="text-content-2">
+            {data.description.substring(0, 50)}
+            {data.description.length > 50 && "..."}
+          </div>
+          <div className="absolute top-3 right-3">
+            <AiFillFolder size={16} />
+          </div>
           <div className="absolute bottom-3 right-3" onClick={toggleOpen}>
             <div className="realative hover:opacity-80 transition cursor-pointer">
               <PiDotsThreeOutlineVertical />
@@ -79,16 +83,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             className="absolute display rounded-xl shadow-md w-[30vw] md:w-4/12 z-[66] bg-slate-6 overflow-hidden text-sm right-6 -top-8"
           >
             <div className="realtive flex flex-col cursor-pointer items-center justify-center">
-              <div 
-                className="px-4 py-3 hover:opacity-80 transition font-semibold"
-                onClick={handleEdit}
-              >
+              <div className="px-4 py-3 hover:opacity-80 transition font-semibold" onClick={handleEdit}>
                 Edit
               </div>
-              <div
-                className="px-4 py-3 hover:opacity-80 text-rose-500 transition font-semibold"
-                onClick={handleDelete}
-              >
+              <div className="px-4 py-3 hover:opacity-80 text-rose-500 transition font-semibold" onClick={handleDelete}>
                 Remove
               </div>
             </div>

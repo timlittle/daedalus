@@ -1,44 +1,37 @@
-'use client';
+"use client";
 
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
-    id: string;
-    label: string;
-    type?: string;
-    disabled?: boolean;
-    required?: boolean;
-    register: UseFormRegister<FieldValues>;
-    errors: FieldErrors;
+  id: string;
+  label: string;
+  type?: string;
+  disabled?: boolean;
+  required?: boolean;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors;
 }
 
-const Input: React.FC<InputProps> = ({
-    id,
-    label,
-    type = "text",
-    disabled,
-    required,
-    register,
-    errors
-}) => {
-    return ( 
-        <div className="w-full relative">
-            <input 
-                id={id}
-                disabled={disabled}
-                { ...register(id, {required})}
-                type={type}
-                className={`
+const Input: React.FC<InputProps> = ({ id, label, type = "text", disabled, required, register, errors }) => {
+  return (
+    <div className="w-full relative">
+      <input
+        id={id}
+        disabled={disabled}
+        {...register(id, { required })}
+        type={type}
+        className={`
                 input
                 peer
                 p-4
                 pt-10
                 max-w-full
-                ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-                ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
+                ${errors[id] ? "border-rose-500" : "border-neutral-300"}
+                ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
                 `}
-            />
-            <label className={`
+      />
+      <label
+        className={`
                 form-label
                 absolute
                 text-md
@@ -49,16 +42,17 @@ const Input: React.FC<InputProps> = ({
                 top-5
                 z-10
                 origin-[0]
-                ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
+                ${errors[id] ? "text-rose-500" : "text-zinc-400"}
                 peer-placeholder-shown:scale-100
                 peer-placeholder-shown:translate-y-0
                 peer-focus:scale-75
                 peer-focus:-translate-y-4
-            `}>
-                {label}
-            </label>
-        </div> 
-    );
-}
- 
-export default Input; 
+            `}
+      >
+        {label}
+      </label>
+    </div>
+  );
+};
+
+export default Input;

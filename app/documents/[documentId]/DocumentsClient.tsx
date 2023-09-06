@@ -4,26 +4,26 @@ import ClientOnly from "@/app/components/ClientOnly";
 import { SafeUser } from "@/app/types";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
+import { EditorView } from "@codemirror/view";
+import { TiptapCollabProvider } from "@hocuspocus/provider";
 import { Document, GithubAuthZ, Project } from "@prisma/client";
 import syncedStore, { getYjsDoc } from "@syncedstore/core";
 import { useSyncedStore } from "@syncedstore/react";
 import { githubDark } from "@uiw/codemirror-theme-github";
 import CodeMirror from "@uiw/react-codemirror";
-import axios from "axios";
 import hljs from "highlight.js";
 import "highlight.js/styles/tokyo-night-dark.css";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { GiMaze } from "react-icons/gi";
-import { TiptapCollabProvider } from "@hocuspocus/provider";
-import ShareDocument from "@/app/components/documents/ShareDocument";
-import { EditorView } from "@codemirror/view";
+import { useEffect, useMemo, useRef } from "react";
+import DownloadMenuItem from "@/app/components/documents/DownloadMenuItem";
+import GitSyncMenuItem from "@/app/components/documents/GitSyncMenuItem";
+import SaveMenuItem from "@/app/components/documents/SaveMenuItem";
+import ShareMenuItem from "@/app/components/documents/ShareMenuItem";
+import MenuItem from "@/app/components/navbar/MenuItem";
+import Navbar from "@/app/components/navbar/Navbar";
+import useEditorText from "@/app/hooks/useEditorText";
 
-// @ts-ignore
-import { Autosave } from "react-autosave";
 // @ts-ignore
 import markdownItMermaid from "@md-reader/markdown-it-mermaid";
 // @ts-ignore
@@ -32,9 +32,6 @@ import markdownItTextualUml from "markdown-it-textual-uml";
 import { yCollab } from "y-codemirror.next";
 // @ts-ignore
 import RandomColor from "randomcolor";
-import DownloadDocument from "@/app/components/documents/DownloadDocument";
-import useEditorText from "@/app/hooks/useEditorText";
-import SyncDocumentToGit from "@/app/components/documents/SyncDocumentToGit";
 
 interface DocumentClientProps {
   currentUser: SafeUser | null;
@@ -67,7 +64,6 @@ const DocumentClient = ({
   const editorStateText = useEditorText();
   const providerInitalised = useRef(false);
   const editorMarkdown = useSyncedStore(store);
-  const [isLoading, setIsLoading] = useState(false);
   const connectedUsers = useRef(0);
 
   let extensions = useMemo(() => [markdown({ base: markdownLanguage, codeLanguages: languages }), EditorView.lineWrapping], []);
@@ -84,7 +80,7 @@ const DocumentClient = ({
     },
   })
     .use(markdownItTextualUml)
-    .use(require("markdown-it-checkbox"))
+    .use(require("markdown-it-task-lists"))
     .use(markdownItMermaid, {
       theme: "dark",
       flowchart: { useMaxWidth: true },
@@ -132,116 +128,50 @@ const DocumentClient = ({
     };
   }, [initalMarkdown, editorMarkdown, document.id, store, extensions, currentUser, jwtToken, editorStateText]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    reset,
-  } = useForm<FieldValues>({
-    defaultValues: {
-      id: document.id,
-      content: initalMarkdown,
-    },
-  });
-
-  const onSave: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
-
-    axios
-      .put(`/api/documents/content/${document.id}`, data)
-      .then(() => {
-        toast.success("Document saved");
-      })
-      .catch(() => {
-        toast.error("Failed to save document");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
   const onChange = (markdown: string) => {
     editorStateText.setContent(markdown);
-    setValue("content", markdown);
   };
 
-  let saveButton = (
-    <div className="btn btn-primary" onClick={handleSubmit(onSave)}>
-      Save
-    </div>
-  );
+  const navMenuItems = [
+    <ShareMenuItem key="share" document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers} />,
+    <SaveMenuItem key="save" documentId={document.id} />,
+    <DownloadMenuItem key="download" documentTitle={document.title} />,
 
-  if (isLoading) {
-    saveButton = <div className="btn btn-primary btn-loading"></div>;
-  }
+    ...(displayGithubSync
+      ? [<GitSyncMenuItem key="githubsync" documentTitle={document.title} githubOwner={githubOwner} githubRepos={githubRepos} />]
+      : [""]),
+
+    <div key="divider" className="divider" />,
+    <MenuItem key="projects" action={() => router.push("/projects")} actionLabel="Projects" />,
+    <MenuItem key="documents" action={() => router.push("/documents")} actionLabel="Documents" />,
+    <MenuItem key="shared" action={() => router.push("/documents/shared")} actionLabel="Shared Documents" />,
+    <MenuItem key="profile" action={() => router.push("/profile")} actionLabel="Profile" />,
+    <MenuItem key="logout" action={() => signOut()} actionLabel="Logout" />,
+  ];
 
   return (
     <div className="flex flex-col h-screen">
       <ClientOnly>
-        <div className="navbar rounded-lg">
-          <div className="navbar-start gap-4 hover:cursor-pointer" onClick={() => router.push("/")}>
-            <GiMaze size={30} />
-            <div>Daedalus</div>
-            <div
-              className="badge badge-flat-primary hover:cursor-pointer"
-              onClick={() => {
-                router.push(`/projects/${project.id}`);
-              }}
-            >
-              {project.title}
-            </div>
-          </div>
-          <div className="gap-4 navbar-center">
-            <div>{connectedUsers.current}</div>
-            <div className="title">{document.title}</div>
-          </div>
-          <div className="navbar-end gap-8">
-            <div className="flex gap-4">
-              <DownloadDocument documentTitle={document.title} />
-              <ShareDocument document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers} />
-              {displayGithubSync && <SyncDocumentToGit documentTitle={document.title} githubOwner={githubOwner} githubRepos={githubRepos} />}
-              {saveButton}
-            </div>
-            <input className="hidden" value={editorMarkdown.contentText.toString()} {...register("content")} />
-            <div className="navbar-item dropdown">
-              <div tabIndex={0}>Menu</div>
-              <div className="dropdown-menu">
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/projects")}>
-                  Projects
-                </div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents")}>
-                  Documents
-                </div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/documents/shared")}>
-                  Shared Documents
-                </div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => router.push("/profile")}>
-                  Profile
-                </div>
-                <div tabIndex={-1} className="dropdown-item" onClick={() => signOut()}>
-                  Logout
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Navbar
+          currentUser={currentUser}
+          menuItems={navMenuItems}
+          badgeLabel={project.title}
+          badgeAction={() => router.push(`/projects/${project.id}`)}
+          documentTitle={document.title}
+        />
       </ClientOnly>
       <ClientOnly>
         <div className="w-full h-screen grid grid-cols-1 sm:grid-cols-2">
           <div className="border-r-2 border-gray-5">
             <CodeMirror extensions={extensions} theme={githubDark} onChange={onChange} />
           </div>
-          <div className="bg-gray-4 relative overflow-scroll">
+          <div className="bg-gray-4 relative sm:overflow-scroll">
             <div className="absolute top-0 right-0 text-xs">Preview</div>
-            <div
-              className="prose prose-invert p-10 leading-6 prose-code:leading-6 prose-headings:mt-7"
-              dangerouslySetInnerHTML={{ __html: parsedMarkdown }}
-            ></div>
+            <div className="prose prose-invert p-10 leading-6 prose-code:leading-6:" dangerouslySetInnerHTML={{ __html: parsedMarkdown }}></div>
           </div>
+          <div className="bottom-3 right-3 text-xs fixed">{connectedUsers.current}</div>
         </div>
       </ClientOnly>
-      <Autosave data={editorMarkdown.contentText.toString()} onSave={handleSubmit(onSave)} interval={10000} />
     </div>
   );
 };
