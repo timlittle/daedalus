@@ -14,9 +14,10 @@ import toast from "react-hot-toast";
 interface ProjectPageClientProps {
   projectTitle: string;
   documents: Document[];
+  showNew?: boolean;
 }
 
-const ProjectPageClient: React.FC<ProjectPageClientProps> = ({ projectTitle, documents }) => {
+const ProjectPageClient: React.FC<ProjectPageClientProps> = ({ projectTitle, documents, showNew }) => {
   const router = useRouter();
   const documentModal = useDocumentModal();
   const [deletingId, setDeletingId] = useState("");
@@ -69,14 +70,16 @@ const ProjectPageClient: React.FC<ProjectPageClientProps> = ({ projectTitle, doc
             disabled={deletingId === document.id}
           />
         ))}
-        <Card
-          onAction={documentModal.onOpen}
-          body={
-            <div className="flex flex-col justify-center items-center h-full">
-              <div>New Document</div>
-            </div>
-          }
-        />
+        {showNew && (
+          <Card
+            onAction={documentModal.onOpen}
+            body={
+              <div className="flex flex-col justify-center items-center h-full">
+                <div>New Document</div>
+              </div>
+            }
+          />
+        )}
       </div>
     </Container>
   );

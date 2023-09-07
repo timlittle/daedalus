@@ -25,7 +25,7 @@ const ProjectPage = async ({ params }: { params: IParams }) => {
       currentUser={currentUser}
       documents={documents}
       projectId={projectId}
-      body={<ProjectPageClient projectTitle={project.title} documents={documents} />}
+      body={<ProjectPageClient projectTitle={project.title} documents={documents} showNew />}
     />
   );
 };

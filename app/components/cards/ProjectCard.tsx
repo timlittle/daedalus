@@ -53,7 +53,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data, onDelete, onEdit, disab
   });
 
   return (
-    <div className="card col-span-1 group max-w-none sm:max-w-[24rem] lg:h-36 xl:h-56 hover:scale-105">
+    <div className="card col-span-1 group max-w-none sm:max-w-[24rem] lg:h-46 xl:h-56 hover:scale-105">
       <div className="flex flex-col gap-2 w-full grow">
         <div
           className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80 select-none sm:select-auto"

@@ -54,7 +54,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ data, onDelete, onEdit, dis
   });
 
   return (
-    <div className="card col-span-1 group max-w-none sm:max-w-[24rem] lg:h-36 xl:h-56 hover:scale-105">
+    <div className="card col-span-1 group max-w-none sm:max-w-[24rem] lg:h-46 xl:h-56 hover:scale-105">
       <div className="flex flex-col gap-2 w-full grow">
         <div
           className="card-body h-full relative overflow-hidden rounded-xl hover:cursor-pointer hover:opacity-80 select-none sm:select-auto"
@@ -63,7 +63,10 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ data, onDelete, onEdit, dis
           }}
         >
           <div className="card-header">{data.title}</div>
-          <div className="text-content-2">{data.description}</div>
+          <div className="text-content-2">
+          {data.description.substring(0, 50)}
+            {data.description.length > 50 && "..."}
+          </div>
           <div className="absolute top-3 right-3">
             <HiDocumentText size={16} />
           </div>
