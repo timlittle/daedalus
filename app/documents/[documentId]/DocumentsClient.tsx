@@ -146,6 +146,7 @@ const DocumentClient = ({
     <MenuItem key="documents" action={() => router.push("/documents")} actionLabel="Documents" />,
     <MenuItem key="shared" action={() => router.push("/documents/shared")} actionLabel="Shared Documents" />,
     <MenuItem key="profile" action={() => router.push("/profile")} actionLabel="Profile" />,
+    <MenuItem key="help" action={() => router.push("/help")} actionLabel="Help" />,
     <MenuItem key="logout" action={() => signOut()} actionLabel="Logout" />,
   ];
 

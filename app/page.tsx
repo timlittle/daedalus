@@ -2,7 +2,7 @@ import getCurrentUser from "./actions/getCurrentUser";
 import AppContainer from "./components/AppContainer";
 import EmptyState from "./components/EmptyState";
 import Heading from "./components/Heading";
-import Story from "./components/newsfeed/story";
+import Story from "./components/newsfeed/Story";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +14,12 @@ export default async function Home() {
   }
 
   const stories = [
+    <Story
+    key={18}
+    title="Help pages"
+    description="After a suggestion from one of the beta testers of the platform, a new help page has been created, with links on all the pages and navigation. The Help page contains information about the platform, its features and how to do some common tasks. The Help Document is itself written in markdown and rendered onto Daedalus as a content page, using the same rendering engine as the Editor."
+    dateString="2023-09-07"
+  />,
     <Story
     key={17}
     title="Improved Mobile experience"

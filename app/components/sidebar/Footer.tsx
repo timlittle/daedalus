@@ -8,6 +8,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Button from "../Button";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import Heading from "../Heading";
+import MenuItem from "../navbar/MenuItem";
 
 interface FooterProps {
   currentUser?: SafeUser | null;
@@ -20,6 +23,15 @@ const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
   const router = useRouter();
 
   let createButton = <Button label="New Project" onClick={projectModal.onOpen} />;
+
+  let menuItems = [
+    <MenuItem key="projects" action={() => router.push("/projects")} actionLabel="Projects" />,
+    <MenuItem key="documents" action={() => router.push("/documents")} actionLabel="Documents" />,
+    <MenuItem key="shared" action={() => router.push("/documents/shared")} actionLabel="Shared Documents" />,
+    <MenuItem key="profile" action={() => router.push("/profile")} actionLabel="Profile" />,
+    <MenuItem key="help" action={() => router.push("/help")} actionLabel="Help" />,
+    <MenuItem key="logout" action={() => signOut()} actionLabel="Logout" />,
+  ];
 
   if (projectId) {
     createButton = <Button label="New Document" onClick={documentModal.onOpen} />;
@@ -68,23 +80,7 @@ const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
           </div>
         </label>
         <div className="dropdown-menu dropdown-menu-right-top ml-2">
-          <div tabIndex={-1} className="dropdown-item text-sm" onClick={() => router.push("/profile")}>
-            {" "}
-            Profile
-          </div>
-          <div tabIndex={-1} className="dropdown-item text-sm" onClick={() => router.push("/projects")}>
-            My Projects
-          </div>
-          <div tabIndex={-1} className="dropdown-item text-sm" onClick={() => router.push("/documents")}>
-            My Documents
-          </div>
-          <div tabIndex={-1} className="dropdown-item text-sm" onClick={() => router.push("/documents/shared")}>
-            Shared documents
-          </div>
-          <div tabIndex={-1} className="dropdown-item text-sm" onClick={() => signOut()}>
-            {" "}
-            Logout
-          </div>
+        {menuItems.map((menuItem) => menuItem)}
         </div>
       </div>
     </section>

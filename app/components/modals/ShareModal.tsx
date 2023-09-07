@@ -57,7 +57,7 @@ const ShareModal = () => {
 
   // Setup default state for create
   let submitHandler = onCreate;
-  let actionLabel = "Create";
+  let actionLabel = "Share";
   let heading = <Heading title="Share the document" subtitle="Select a users to collaborate on this document with" />;
 
   useEffect(() => {
