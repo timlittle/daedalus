@@ -15,61 +15,61 @@ export default async function Home() {
 
   const stories = [
     <Story
-    key={18}
+    key={20}
     title="Help pages"
     description="After a suggestion from one of the beta testers of the platform, a new help page has been created, with links on all the pages and navigation. The Help page contains information about the platform, its features and how to do some common tasks. The Help Document is itself written in markdown and rendered onto Daedalus as a content page, using the same rendering engine as the Editor."
     dateString="2023-09-07"
   />,
     <Story
-    key={17}
+    key={19}
     title="Improved Mobile experience"
     description="Updates to the mobile navigation bar, navigation in the Editor and adding buttons on the project and documents pages for creation. Button availible in the mobile experience. Buttons from the main navigation bar in the Editor moved to the menu"
     dateString="2023-09-06"
   />,
     <Story
-      key={16}
+      key={18}
       title="Sync documents with Github!!🎉"
       description="Users can syncronise documents from Daedalus into their Github Repos. To do this, users must first install the Daedlus Github application by going to their Daedalus Profile (/profile_) and clicking 'Connect to Github'. Users can select which repos to give Daedalus access to. Once connected to Github, users can navigate to a document and click the 'Sync to Github' button in the Menu. "
       dateString="2023-09-05"
     />,
     <Story
-      key={15}
+      key={17}
       title="Download markdown files"
       description="Users can now download documents onto their local machine using the new 'Download' button in the Editor Menu. This pushes the code from the editor into a markdown file for the user to upload to their code repository."
       dateString="2023-09-03"
     />,
     <Story
-      key={14}
+      key={16}
       title="Profile page added + line wrapping"
       description="New profile page has been added. This page displays information about your Dedalus user and when you account was created. On the editor page, line wrapping has been enabled to prevent horizontal scrolling in the UI when typing long lines of text."
       dateString="2023-09-03"
     />,
     <Story
-      key={13}
+      key={15}
       title="News feed added"
       description="The homepage has been updated to include a newsfeed for the development of Daedalus. Feedback from beta testers of the platform indicated they would like more visibility into the updates that are occuring on the application. The newfeed acts as a mechnism to provide testers with a single entry point to understand the latest updates. "
       dateString="2023-09-03"
     />,
     <Story
-      key={12}
+      key={14}
       title="Sidebar updated"
       description="Based on user feedback. The sidebar has been updated with a static section for navigating to documents, projects and shared documents and dynamic content. When on a project, the dynamic content will display the document in the project and when on the home page, it will display all the users projects. The 'Shared Documents' section has been added to display documents that have been shared with the user."
       dateString="2023-09-02"
     />,
     <Story
-      key={12}
+      key={13}
       title="Document sharing"
       description="Documents now have the ability to be shared between Daedalus users. By default, only the owner of the document is able to edit the document. The owner can share the document with other Daedalus users by clicking the'Share' button on the Editor and selecting a user. The user will be granted permission to collaborate on the document."
       dateString="2023-09-02"
     />,
     <Story
-      key={11}
+      key={12}
       title="Render Mermaid and PlantUML diagrams"
       description="The markdown render has been extended to support mermaid and plantUML documents. Documents can be defined using fence blocks within the markdown documents. This is rendered in the preview panel. Mermaid and PlantUML are UML as Code frameworks, enabling users to define a diagram in text and have a digram render based on the defintion."
       dateString="2023-09-01"
     />,
     <Story
-      key={10}
+      key={11}
       title="Use Hocuspocus as a yJS provider"
       description="Hocuspocus is a hosted websocket which can be used as a yJS provider. This removes a dependency on running a local websocket server or public WebRTC signaling servers. "
       dateString="2023-09-01"
