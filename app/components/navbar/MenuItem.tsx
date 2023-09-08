@@ -9,7 +9,7 @@ interface MenuItemProps {
 
 const MenuItem: React.FC<MenuItemProps> = ({ action, actionLabel, icon: Icon }) => {
   return (
-    <div tabIndex={-1} className="dropdown-item flex flex-row gap-4 justify-between" onClick={action}>
+    <div data-cy={`menuitem-${actionLabel.split(' ').join('-').toLowerCase()}`} tabIndex={-1} className="dropdown-item flex flex-row gap-4 justify-between" onClick={action}>
       {actionLabel}
       {Icon && <Icon size={16} />}
     </div>

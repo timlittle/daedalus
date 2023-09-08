@@ -74,7 +74,7 @@ const ProjectPageClient: React.FC<ProjectPageClientProps> = ({ projectTitle, doc
           <Card
             onAction={documentModal.onOpen}
             body={
-              <div className="flex flex-col justify-center items-center h-full">
+              <div data-cy="new-document-card" className="flex flex-col justify-center items-center h-full">
                 <div>New Document</div>
               </div>
             }

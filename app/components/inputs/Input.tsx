@@ -16,6 +16,7 @@ const Input: React.FC<InputProps> = ({ id, label, type = "text", disabled, requi
   return (
     <div className="w-full relative">
       <input
+        data-cy={`input-${id}`}
         id={id}
         disabled={disabled}
         {...register(id, { required })}

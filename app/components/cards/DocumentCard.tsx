@@ -62,15 +62,15 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ data, onDelete, onEdit, dis
             router.push(`/documents/${data.id}`);
           }}
         >
-          <div className="card-header">{data.title}</div>
-          <div className="text-content-2">
+          <div data-cy={`document-card-${data.title.toLowerCase()}-title`} className="card-header">{data.title}</div>
+          <div data-cy={`document-card-${data.title.toLowerCase()}-description`} className="text-content-2">
           {data.description.substring(0, 50)}
             {data.description.length > 50 && "..."}
           </div>
           <div className="absolute top-3 right-3">
             <HiDocumentText size={16} />
           </div>
-          <div className="absolute bottom-3 right-3" onClick={toggleOpen}>
+          <div data-cy="document-menu-dots" className="absolute bottom-3 right-3" onClick={toggleOpen}>
             <div className="realative hover:opacity-80 transition cursor-pointer">
               <PiDotsThreeOutlineVertical />
             </div>
@@ -84,10 +84,10 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ data, onDelete, onEdit, dis
             className="absolute display rounded-xl shadow-md w-[30vw] md:w-4/12 z-[66] bg-slate-6 overflow-hidden text-sm right-6 -top-8"
           >
             <div className="realtive flex flex-col cursor-pointer items-center justify-center">
-              <div className="px-4 py-3 hover:opacity-80 transition font-semibold" onClick={handleEdit}>
+              <div data-cy="card-menu-edit" className="px-4 py-3 hover:opacity-80 transition font-semibold" onClick={handleEdit}>
                 Edit
               </div>
-              <div className="px-4 py-3 hover:opacity-80 text-rose-500 transition font-semibold" onClick={handleDelete}>
+              <div data-cy="card-menu-delete" className="px-4 py-3 hover:opacity-80 text-rose-500 transition font-semibold" onClick={handleDelete}>
                 Remove
               </div>
             </div>

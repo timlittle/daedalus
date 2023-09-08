@@ -14,6 +14,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ label, onClick, disabled, outline, icon: Icon }) => {
   return (
     <button
+    data-cy={`button-${label.toLowerCase()}`}
       onClick={onClick}
       disabled={disabled}
       className={`    

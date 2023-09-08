@@ -67,7 +67,7 @@ const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
       {createButton}
 
       <div className="divider my-0" />
-      <div className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
+      <div data-cy="footer-menu" className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
         <label className="whites mx-2 flex h-fit w-full cursor-pointer p-0 hover:bg-gray-4" tabIndex={0}>
           <div className="flex flex-row gap-4 p-4">
             <div className="avatar avatar-md">

@@ -48,7 +48,7 @@ const SaveMenuItem: React.FC<SaveMenuItemProps> = ({ documentId }) => {
     <div>
       <MenuItem key="save" action={handleSubmit(onSave)} actionLabel="Save" icon={BiSolidSave} />
       <input className="hidden" value={editorStateText.content} {...register("content")} />
-      <Autosave data={editorStateText.content} onSave={handleSubmit(onSave)} interval={10000} />
+      <Autosave data={editorStateText.content as any} onSave={handleSubmit(onSave)} interval={10000} />
     </div>
   );
 };

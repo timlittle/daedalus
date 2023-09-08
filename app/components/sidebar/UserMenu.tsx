@@ -22,15 +22,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, projects, documents })
 
   let menuContent = (
     <ul className="menu-items">
-      <li className="menu-item" onClick={() => router.push("/projects")}>
+      <li data-cy="sidebar-button-project" className="menu-item" onClick={() => router.push("/projects")}>
         <AiOutlineFolder size={16} />
         <div>My Projects</div>
       </li>
-      <li className="menu-item" onClick={() => router.push("/documents")}>
+      <li data-cy="sidebar-button-documents" className="menu-item" onClick={() => router.push("/documents")}>
         <HiOutlineDocumentText size={16} />
         <div>My Documents</div>
       </li>
-      <li className="menu-item" onClick={() => router.push("/documents/shared")}>
+      <li data-cy="sidebar-button-shared-documents" className="menu-item" onClick={() => router.push("/documents/shared")}>
         <HiOutlineDocumentText size={16} />
         <div>Shared documents</div>
       </li>
@@ -45,7 +45,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, projects, documents })
         <div className="menu-tile">Projects</div>
         <ul className="menu-items">
           {projects?.splice(0, 5).map((project) => (
-            <li className="menu-item" onClick={() => router.push(`/projects/${project.id}`)} key={project.id}>
+            <li data-cy={`sidebar-button-recent-projects-${project.title.split(' ').join('-').toLowerCase()}`} className="menu-item" onClick={() => router.push(`/projects/${project.id}`)} key={project.id}>
               <AiOutlineFolder size={16} />
               <div>{project.title}</div>
             </li>
@@ -59,7 +59,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, projects, documents })
         <div className="menu-tile">Documents</div>
         <ul className="menu-items">
           {documents?.splice(0, 5).map((document) => (
-            <li className="menu-item" onClick={() => router.push(`/documents/${document.id}`)} key={document.id}>
+            <li data-cy={`sidebar-button-recent-documents-${document.title.split(' ').join('-').toLowerCase()}`} className="menu-item" onClick={() => router.push(`/documents/${document.id}`)} key={document.id}>
               <HiOutlineDocumentText size={16} />
               <div>{document.title}</div>
             </li>
@@ -72,10 +72,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, projects, documents })
   if (!currentUser) {
     menuContent = (
       <ul className="menu-items">
-        <li className="menu-item" onClick={loginModal.onOpen}>
+        <li data-cy="sidebar-button-login" className="menu-item" onClick={loginModal.onOpen}>
           <div>Log in</div>
         </li>
-        <li className="menu-item" onClick={registerModal.onOpen}>
+        <li data-cy="sidebar-button-register" className="menu-item" onClick={registerModal.onOpen}>
           <div>Register</div>
         </li>
       </ul>

@@ -69,7 +69,7 @@ const ProjectsClient: React.FC<ProjectsClientProps> = ({ projects }) => {
         <Card
           onAction={projectModal.onOpen}
           body={
-            <div className="flex flex-col justify-center items-center h-full">
+            <div data-cy="new-project-card" className="flex flex-col justify-center items-center h-full">
               <div>New Project</div>
             </div>
           }
