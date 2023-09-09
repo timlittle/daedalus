@@ -30,8 +30,8 @@ describe('Homepage', () => {
     cy.get('[data-cy="navbar-menu"]').click()
     cy.get('[data-cy="menuitem-logout"]').first().click()
 
-    cy.get('[data-cy="header-title"]').contains("Welcome to Daedalus")
-    cy.get('[data-cy="header-subtitle"]').contains("Please sign in")
+    cy.get('[data-cy="header-title"]').contains("Daedalus")
+    cy.get('[data-cy="header-subtitle"]').contains("A collaborative documentation as code platform")
 
 
   })

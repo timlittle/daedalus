@@ -7,7 +7,7 @@ describe("Sharing", ()=>{
 
         cy.visit("/")
 
-        cy.get('[data-cy="sidebar-button-register"]').click()
+        cy.get('[data-cy="splash-register"]').click()
         cy.get('[data-cy="modal-register"]').should('have.class', 'opacity-100')
         cy.get('[data-cy="input-email"]').type("test.register.user@test.com")
         cy.get('[data-cy="input-name"]').type("Test user")
@@ -48,7 +48,7 @@ describe("Sharing", ()=>{
         cy.get('[data-cy="navbar-menu"]').click()
         cy.get('[data-cy="menuitem-logout"]').click();
         cy.visit('/')
-        cy.get('[data-cy="sidebar-button-login"]').click();
+        cy.get('[data-cy="splash-login"]').click();
         cy.get('[data-cy="input-email"]').type('test.user@test.com');
         cy.get('[data-cy="input-password"]').type('123456789!');
         cy.get('[data-cy="button-continue"]').click();
