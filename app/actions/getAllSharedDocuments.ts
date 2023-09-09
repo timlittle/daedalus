@@ -19,6 +19,10 @@ export default async function getAllSharedDocuments(params: IAllSharedDocumentsP
     
     const returnDocuments = permissions.map((permission) => permission.document);
 
+    if (!returnDocuments){
+      return []
+    }
+
     return returnDocuments;
   } catch (error: any) {
     throw new Error(error);

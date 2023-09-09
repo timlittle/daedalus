@@ -79,15 +79,15 @@ model Document {
 model UserDocumentPermission {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   documentId String   @db.ObjectId
-  document   Document @relation(fields: [documentId], references: [id])
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 }
 
 model GithubAuthZ {
   id                    String @id @default(auto()) @map("_id") @db.ObjectId
   userId                String @db.ObjectId
-  user                  User   @relation(fields: [userId], references: [id])
+  user                  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String
   expiresAt             Int
   refreshToken          String

@@ -107,6 +107,7 @@ const ShareModal = () => {
       <div className="flex flex-row gap-8">
         <div className="flex title text-center items-center justify-center">Add user:</div>
         <select
+          data-cy="share-select"
           {...register("userId", { required: true })}
           className={`
         select

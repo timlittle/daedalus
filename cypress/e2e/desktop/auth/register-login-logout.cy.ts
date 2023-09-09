@@ -15,16 +15,11 @@ describe('Homepage', () => {
     cy.get('[data-cy="input-email"]').type("test.register.user@test.com")
     cy.get('[data-cy="input-password"]').type("123456789!")
     cy.get('[data-cy="button-continue"]').click();
-    cy.wait(500)
 
   })
   it('should logout', () => {
+    cy.login()
     cy.visit('/')
-    cy.get('[data-cy="sidebar-button-login"]').click()
-    cy.get('[data-cy="modal-login"]').should('have.class', 'opacity-100')
-    cy.get('[data-cy="input-email"]').type("test.user@test.com")
-    cy.get('[data-cy="input-password"]').type("123456789!")
-    cy.get('[data-cy="button-continue"]').click();
 
     cy.get('[data-cy="menuitem-logout"]').first().click({force: true})
 

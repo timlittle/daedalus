@@ -13,7 +13,7 @@ const DocumentsPage = async () => {
 
   const documents = await getAllSharedDocuments({ userId: currentUser.id });
 
-  if (documents.length === 0) {
+  if (documents && documents.length === 0) {
     return <AppContainer currentUser={currentUser} body={<EmptyState title="No shared documents" subtitle="Start sharing" />} />;
   }
 

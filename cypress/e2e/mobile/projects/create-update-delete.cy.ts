@@ -6,20 +6,15 @@ describe("Projects", () => {
 
   beforeEach(() => {
     // Login
-    cy.visit("/");
-    cy.get('[data-cy="sidebar-button-login"]').click();
-    cy.get('[data-cy="modal-login"]').should("have.class", "opacity-100");
-    cy.get('[data-cy="input-email"]').type("test.user@test.com");
-    cy.get('[data-cy="input-password"]').type("123456789!");
-    cy.get('[data-cy="button-continue"]').click();
+    cy.viewport('iphone-6')
+    cy.login()
+    cy.visit('/')
     cy.get('[data-cy="header-title"]').contains("Welcome to Daedalus");
 
     // Go to projects page
-    cy.get('[data-cy="sidebar-button-project"]').click();
+    cy.get('[data-cy="navbar-menu"]').click()
+    cy.get('[data-cy="menuitem-projects"]').first().click()
     cy.url().should("include", "/projects");
-
-    // Wait for project page
-    cy.wait(3000);
   });
 
   it("should add a test project, edit it and delete it", () => {

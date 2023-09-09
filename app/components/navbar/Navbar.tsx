@@ -24,18 +24,18 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, mobile, menuItems, badgeLa
           <div>Daedalus</div>
         </div>
         {badgeLabel && (
-          <div className="badge badge-flat-primary hover:cursor-pointer hidden sm:block" onClick={badgeAction}>
+          <div data-cy="navbar-badge" className="badge badge-flat-primary hover:cursor-pointer hidden sm:block" onClick={badgeAction}>
             {badgeLabel}
           </div>
         )}
       </div>
       {documentTitle && (
         <div className="gap-4 navbar-center">
-          <div className="title">{documentTitle}</div>
+          <div data-cy="navbar-title" className="title">{documentTitle}</div>
         </div>
       )}
       <div className="navbar-end">
-        <div className="navbar-item dropdown">
+        <div data-cy="navbar-menu" className="navbar-item dropdown">
           <div tabIndex={0}>Menu</div>
           <div className="dropdown-menu">{menuItems.map((menuItem) => menuItem)}</div>
         </div>
