@@ -8,8 +8,16 @@ interface MenuItemProps {
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ action, actionLabel, icon: Icon }) => {
+  // Custome menuitem component
+  // Injects data for tests (data-cy) and setups classes for styling
+  // Icon is optional
   return (
-    <div data-cy={`menuitem-${actionLabel.split(' ').join('-').toLowerCase()}`} tabIndex={-1} className="dropdown-item flex flex-row gap-4 justify-between" onClick={action}>
+    <div
+      data-cy={`menuitem-${actionLabel.split(" ").join("-").toLowerCase()}`}
+      tabIndex={-1}
+      className="dropdown-item flex flex-row gap-4 justify-between"
+      onClick={action}
+    >
       {actionLabel}
       {Icon && <Icon size={16} />}
     </div>

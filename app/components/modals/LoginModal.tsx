@@ -17,11 +17,17 @@ import Input from "../inputs/Input";
 import Modal from "./Modal";
 
 const LoginModal = () => {
+  // Modal for login into the platform
+
+  // Fetch the login modal, register modal and next router
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+
+  // Setup state to indicate the modal is busy
   const [isLoading, setIsLoading] = useState(false);
 
+  // Setup form for submission
   const {
     register,
     handleSubmit,
@@ -34,21 +40,31 @@ const LoginModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // Submit handler used with the user submits the form
+
+    // Indicate the modal is busy
     setIsLoading(true);
 
+    // Use the Next-Auth signin function to sign in with the supplied credenitals
     signIn("credentials", {
       ...data,
       redirect: false,
     }).then((callback) => {
       setIsLoading(false);
 
+      // If logged in
       if (callback?.ok) {
+        // Feedback to the user
         toast.success("Logged in");
+        // Refresh the page
         router.refresh();
+        // Close the login modal
         loginModal.onClose();
       }
 
+      // If not logged in
       if (callback?.error) {
+        // Feedback to the user
         console.log(data);
         toast.error(callback.error);
       }
@@ -56,10 +72,12 @@ const LoginModal = () => {
   };
 
   const toggle = useCallback(() => {
+    // Toggle betweent the login and register modal
     loginModal.onClose();
     registerModal.onOpen();
   }, [loginModal, registerModal]);
 
+  // Setup the body of the modal, with email and password
   const bodyContent = (
     <div className="flex flex-col gap-4 ">
       <Heading title="Welcome to Daedalus" subtitle="Login to your account" />
@@ -67,6 +85,8 @@ const LoginModal = () => {
       <Input id="password" label="Password" type="password" disabled={isLoading} register={register} errors={errors} required />
     </div>
   );
+
+  // Setup the footer with social logins and prompted to register
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
@@ -83,6 +103,7 @@ const LoginModal = () => {
     </div>
   );
 
+  // Render the modal using the Modal base component
   return (
     <Modal
       disabled={isLoading}

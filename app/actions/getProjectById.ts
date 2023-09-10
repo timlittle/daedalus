@@ -5,6 +5,7 @@ interface IParams {
 }
 
 export default async function getProjectById(params: IParams) {
+  // Fecth a specific project for a desired user
   try {
     const { projectId } = params;
 
@@ -22,7 +23,6 @@ export default async function getProjectById(params: IParams) {
     }
 
     return project;
-
   } catch (error: any) {
     throw new Error(error);
   }

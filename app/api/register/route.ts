@@ -1,27 +1,28 @@
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
-import prisma from "@/app/libs/prismadb"
-import { NextResponse } from 'next/server';
+import prisma from "@/app/libs/prismadb";
+import { NextResponse } from "next/server";
 
-export async function POST(
-    request: Request
-){
-    const body = await request.json();
-    const {
-        email,
-        name,
-        password
-    } = body;
+export async function POST(request: Request) {
+  // API Handler to create a new user
+  // This is used for people registering without oAuth
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+  // Fetch the fields from body
+  const body = await request.json();
+  const { email, name, password } = body;
 
-    const user = await prisma.user.create({
-        data: {
-            email,
-            name,
-            hashedPassword
-        }
-    });
+  // Hash the users password with bcrypt
+  const hashedPassword = await bcrypt.hash(password, 12);
 
-    return NextResponse.json(user);
+  // Create the user in the database
+  const user = await prisma.user.create({
+    data: {
+      email,
+      name,
+      hashedPassword,
+    },
+  });
+
+  // Return the user
+  return NextResponse.json(user);
 }

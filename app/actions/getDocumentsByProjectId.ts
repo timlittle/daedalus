@@ -5,6 +5,8 @@ export interface IDocumentsProjectParams {
 }
 
 export default async function getDocumentsByProjectId(params: IDocumentsProjectParams) {
+  // This function fetchs all the documents for a specific project
+  // This is used when opening a project, the list of documents are filtered by the project
   try {
     const { projectId } = params;
 
@@ -15,11 +17,10 @@ export default async function getDocumentsByProjectId(params: IDocumentsProjectP
     }
 
     const documents = await prisma.document.findMany({
-    where: query,
+      where: query,
       orderBy: {
         createdAt: "desc",
       },
-      
     });
     return documents;
   } catch (error: any) {

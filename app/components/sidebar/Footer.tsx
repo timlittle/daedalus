@@ -8,8 +8,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Button from "../Button";
-import { AiFillQuestionCircle } from "react-icons/ai";
-import Heading from "../Heading";
 import MenuItem from "../navbar/MenuItem";
 
 interface FooterProps {
@@ -18,12 +16,18 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
+  // Component for displaying the footer of the sidebar
+  // Will change depending on if the user is logged in
+
+  // Setup the modals for the "new" buttons displayed above the user section
   const projectModal = useProjectModal();
   const documentModal = useDocumentModal();
   const router = useRouter();
 
+  // Default state for the creation button
   let createButton = <Button label="New Project" onClick={projectModal.onOpen} />;
 
+  // Default menu items used in the dropdown when clicking the user
   let menuItems = [
     <MenuItem key="projects" action={() => router.push("/projects")} actionLabel="Projects" />,
     <MenuItem key="documents" action={() => router.push("/documents")} actionLabel="Documents" />,
@@ -33,10 +37,12 @@ const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
     <MenuItem key="logout" action={() => signOut()} actionLabel="Logout" />,
   ];
 
+  // If the page view is for a project, prompt the user to create documents in the project
   if (projectId) {
     createButton = <Button label="New Document" onClick={documentModal.onOpen} />;
   }
 
+  // If the user is not logged in, display a placeholder section
   if (!currentUser) {
     return (
       <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
@@ -54,16 +60,11 @@ const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
     );
   }
 
-  const endDate = new Date("09/18/2023");
-  const startDate = new Date();
-  const diffTime = endDate.getTime() - startDate.getTime();
-  const diffDays = diffTime / (1000 * 3600 * 24);
-
+  // Render the footer
+  // Uses the currentUser to pull the avatar for the user and details to customise the section
+  // Loops through the menu-items to display them in the dropdown menu
   return (
     <section className="sidebar-footer h-full justify-end bg-gray-2 pt-2">
-      {/* <div className="text-rose-400 flex justify-center items-center">
-        <Heading title={`${Math.floor(diffDays)} days remaining`}/>
-      </div> */}
       {createButton}
 
       <div className="divider my-0" />
@@ -79,9 +80,7 @@ const Footer: React.FC<FooterProps> = ({ currentUser, projectId }) => {
             </div>
           </div>
         </label>
-        <div className="dropdown-menu dropdown-menu-right-top ml-2">
-        {menuItems.map((menuItem) => menuItem)}
-        </div>
+        <div className="dropdown-menu dropdown-menu-right-top ml-2">{menuItems.map((menuItem) => menuItem)}</div>
       </div>
     </section>
   );

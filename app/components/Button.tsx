@@ -12,9 +12,11 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ label, onClick, disabled, outline, icon: Icon }) => {
+  // Button component for the application, used to inject cypress identifiers and setup consistent styling
+  // Optional Icon to include on the button
   return (
     <button
-    data-cy={`button-${label.toLowerCase()}`}
+      data-cy={`button-${label.toLowerCase()}`}
       onClick={onClick}
       disabled={disabled}
       className={`    

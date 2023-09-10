@@ -5,6 +5,8 @@ export interface IDocumentsUserParams {
 }
 
 export default async function getDocumentsByUserId(params: IDocumentsUserParams) {
+  // Fetchs all the documents for a desired user ID
+  // This is used to display all documents owned by the user on the My Documents page
   try {
     const { userId } = params;
 
@@ -15,14 +17,13 @@ export default async function getDocumentsByUserId(params: IDocumentsUserParams)
     }
 
     const documents = await prisma.document.findMany({
-    where: query,
+      where: query,
       orderBy: {
         createdAt: "desc",
       },
       include: {
-        project: true
-      }
-      
+        project: true,
+      },
     });
     return documents;
   } catch (error: any) {

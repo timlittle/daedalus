@@ -7,6 +7,9 @@ export interface IGithubReposParams {
 }
 
 export default async function getGithubRepos(params: IGithubReposParams) {
+  // This function fetches the git repositories the Github App has permission to
+  // This is used by the git syncing process
+  // In the github sync modal, the user can select the repo they wish to sync to
   try {
     const { githubAuthZ, githubOwner } = params;
 

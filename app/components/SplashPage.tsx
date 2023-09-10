@@ -9,16 +9,23 @@ import useRegisterModal from "../hooks/useRegisterModal";
 import MenuItem from "./navbar/MenuItem";
 
 const SplashPage = () => {
+  // Main splash page for unauthenticated users
+  // Displays information about the application
+  // Uses a different navbar design and hardcoded narrative with images to demo the sites
+
+  // Fetch the login and register modal for users wishing to sign in or sign up
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const router = useRouter();
 
+  // Setup the menu
   const navbarMenuItems = [
     <MenuItem key="signIn" action={loginModal.onOpen} actionLabel="Sign In" />,
     <MenuItem key="Register" action={registerModal.onOpen} actionLabel="Register" />,
     <MenuItem key="help" action={() => router.push("/help")} actionLabel="Help" />,
   ];
 
+  // Render the page, highlighing the purpose of Daedalus and its features.
   return (
     <div className="flex flex-col">
       <header className="top-0 w-full clearNav z-50">
@@ -40,14 +47,16 @@ const SplashPage = () => {
               Help
             </div>
             <div className="dropdown inline-flex sm:hidden">
-              <FiMenu size={30} tabIndex={0} data-cy="navbar-menu"/>
+              <FiMenu size={30} tabIndex={0} data-cy="navbar-menu" />
               <div className="dropdown-menu">{navbarMenuItems.map((menuItem) => menuItem)}</div>
             </div>
           </div>
         </div>
       </header>
       <div className="max-w-5xl mx-auto flex flex-wrap p-5 flex-col md:flex-row">
-        <div data-cy="header-title" className="text-center font-bold text-white mb-6 text-6xl pt-24 w-full">Daedalus</div>
+        <div data-cy="header-title" className="text-center font-bold text-white mb-6 text-6xl pt-24 w-full">
+          Daedalus
+        </div>
         <div className="text-center text-xl font-semibold text-gray-500 w-full flex items-center flex-row justify-center pt-4">
           <div data-cy="header-subtitle" className="max-w-3xl">
             A collaborative documentation as code platform enabling designers to create narratives and diagrams in the same tool

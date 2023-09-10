@@ -13,6 +13,9 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({ id, label, type = "text", disabled, required, register, errors }) => {
+  // Input component used across the plaform
+  // Includes feedback to the user when errors occur when submitting forms
+  // Passes in the register for the use-hook-form firms
   return (
     <div className="w-full relative">
       <input

@@ -1,5 +1,8 @@
 import { create } from "zustand";
 
+// Shared state for the document modal
+// Contains the boolean for displaying the modal
+// Contains the state of the document for the edit function
 interface DocumentModalStore {
   isOpen: boolean;
   onOpen: () => void;

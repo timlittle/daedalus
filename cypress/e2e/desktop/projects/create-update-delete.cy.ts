@@ -1,13 +1,12 @@
 describe("Projects", () => {
-
-  after(()=>{
-    cy.task('purgeTestData')
-  })
+  after(() => {
+    cy.task("purgeTestData");
+  });
 
   beforeEach(() => {
     // Login
-    cy.login()
-    cy.visit('/')
+    cy.login();
+    cy.visit("/");
     cy.get('[data-cy="header-title"]').contains("Welcome to Daedalus");
 
     // Go to projects page
@@ -27,8 +26,8 @@ describe("Projects", () => {
     cy.get('[data-cy="project-menu-dots"]').first().click();
     cy.get('[data-cy="card-menu-edit"]').click();
     cy.get('[data-cy="modal-new project"]').should("have.class", "opacity-100");
-    cy.get('[data-cy="input-title"]').clear()
-    cy.get('[data-cy="input-description"]').clear()
+    cy.get('[data-cy="input-title"]').clear();
+    cy.get('[data-cy="input-description"]').clear();
     cy.get('[data-cy="input-title"]').type("Delete project");
     cy.get('[data-cy="input-description"]').type("Delete");
     cy.get('[data-cy="button-update"]').click();
@@ -39,5 +38,4 @@ describe("Projects", () => {
     cy.get('[data-cy="project-menu-dots"]').first().click();
     cy.get('[data-cy="card-menu-delete"]').click();
   });
-
 });

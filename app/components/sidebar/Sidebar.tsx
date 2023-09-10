@@ -14,6 +14,8 @@ interface SideBarProps {
 }
 
 const Sidebar: React.FC<SideBarProps> = ({ currentUser, projects, documents, projectId }) => {
+  // Component for the sidebar menu, uses RippleUI to style the sidebar
+  // Passes in the Logo, Usermeny and Footer for rendering
   return (
     <div className="w-full max-w-[18rem] max-h-full">
       <div className="sidebar sidebar-mobile sidebar-fixed-left justify-start max-sm:fixed max-sm:-translate-x-full">

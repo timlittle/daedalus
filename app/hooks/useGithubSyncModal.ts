@@ -1,5 +1,8 @@
 import { create } from "zustand";
 
+// Shared state for the github sync modal
+// Contains boolean for displaying the modal
+// Contains state used to prepopulate the modal when it is opened
 interface GithubSyncModalStore {
   isOpen: boolean;
   onOpen: () => void;

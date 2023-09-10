@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { SafeUser } from "../types";
 
+// Shared state for the sharing modal
+// Contains the state for the share modal, include the users that can be shared with
 interface ShareModalStore {
   isOpen: boolean;
   onOpen: () => void;

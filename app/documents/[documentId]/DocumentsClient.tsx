@@ -56,23 +56,44 @@ const DocumentClient = ({
   githubOwner,
   githubRepos,
 }: DocumentClientProps) => {
+  // The editor view for the platform
+  // Contains realtime collaboration, sharing, gitsyncing, markdown rendering, mermaid/plantuml rendering
+
+  // Setup the next router
   const router = useRouter();
 
+  // Fetch the markdown from the database, if it is blank generate a default
   const initalMarkdown = document.content ? document.content : `# ${document.title}`;
 
+  // Setup a distributed state in a SyncedStore
   const store = syncedStore({ contentText: "text" });
-  const editorStateText = useEditorText();
-  const providerInitalised = useRef(false);
   const editorMarkdown = useSyncedStore(store);
+
+  // Store the state of the editor into a custom hook
+  const editorStateText = useEditorText();
+
+  // State for when the yJS provider has been provided
+  const providerInitalised = useRef(false);
+
+  // Count of how many users are connect to the page
   const connectedUsers = useRef(0);
 
+  // List of all the exensions for the code editor
   let extensions = useMemo(() => [markdown({ base: markdownLanguage, codeLanguages: languages }), EditorView.lineWrapping], []);
+
+  // If the user has connected to the github app, display the button
   let displayGithubSync = true;
 
+  // If the user has not connected, do not display
   if (!githubOwner || !githubRepos || !githubAuthZ) {
     displayGithubSync = false;
   }
 
+  // Setup the markdown renderer
+  // Using TextualUML to display PlantUML
+  // Using Mermaid to display Mermaid
+  // Using Task List to display checklists
+  // Setup code syntax highlighting using highlight.js
   const md = require("markdown-it")({
     highlight: function (code: string, lang: string) {
       const language = hljs.getLanguage(lang) ? lang : "plaintext";
@@ -86,13 +107,19 @@ const DocumentClient = ({
       flowchart: { useMaxWidth: true },
     });
 
+  // Parse the markdown in the editor into HTML using markdown-it
   const parsedMarkdown = md.render(editorMarkdown.contentText.toString());
 
+  // Setup the real time collaboration in the page with yJS, SyncedStore and Hocuspocus
   useEffect(() => {
+    // If the provider already setup, skip
     if (providerInitalised.current) return;
 
+    // Fetch the yJS document from the SyncedStore
     const doc = getYjsDoc(store);
 
+    // Setup the HocusPocus store using the cloud based version
+    // Use the JWT to authenticate
     const provider = new TiptapCollabProvider({
       appId: "jkv8llmx",
       name: document.id,
@@ -100,18 +127,21 @@ const DocumentClient = ({
       document: doc,
     });
 
+    // Setup the awareness for yJS, displays the users cursor and name in the UI
     // @ts-ignore
     provider.awareness.setLocalStateField("user", {
       name: currentUser?.name,
       color: RandomColor(),
     });
 
+    // When the awareness changes (new users, disconnects), update the connectedusers
     // @ts-ignore
     provider.awareness.on("change", () => {
       // @ts-ignore
       connectedUsers.current = Array.from(provider.awareness.getStates().values()).length;
     });
 
+    // Load the inital markdown into editor when it connects
     provider.on("synced", () => {
       if (editorMarkdown.contentText.toString() === "" && connectedUsers.current === 0) {
         editorMarkdown.contentText.insert(0, initalMarkdown);
@@ -119,19 +149,28 @@ const DocumentClient = ({
       }
     });
 
+    // Add the new collaboration plugin to the CodeMirror editor
     extensions.push(yCollab(editorMarkdown.contentText, provider.awareness));
 
+    // Set the provider to initalised
     providerInitalised.current = true;
 
     return () => {
+      // Disconnect from the yJS provider on exit
       provider.disconnect();
     };
   }, [initalMarkdown, editorMarkdown, document.id, store, extensions, currentUser, jwtToken, editorStateText]);
 
   const onChange = (markdown: string) => {
+    // Update the state for the editor when the CodeMirror editor changes (Users type)
     editorStateText.setContent(markdown);
   };
 
+  // Setup the navigation menu in the dropdown
+  // Share to share the document
+  // Save to save the document to the databae
+  // Download to download the document into the local machine
+  // GitSync to sync changes to a remote github repo
   const navMenuItems = [
     <ShareMenuItem key="share" document={document} currentUser={currentUser} sharedUsers={sharedUsers || []} allUsers={allUsers} />,
     <SaveMenuItem key="save" documentId={document.id} />,
@@ -150,6 +189,10 @@ const DocumentClient = ({
     <MenuItem key="logout" action={() => signOut()} actionLabel="Logout" />,
   ];
 
+  // Render the view
+  // Add the navbar for the navigation
+  // Use CodeMirror editor to sync changes and add highlighing
+  // Display the preview panel with the rendered markdown in as HTML
   return (
     <div className="flex flex-col h-screen">
       <ClientOnly>

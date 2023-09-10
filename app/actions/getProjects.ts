@@ -5,10 +5,9 @@ export interface IProjectsParams {
 }
 
 export default async function getProjects(params: IProjectsParams) {
+  // Fetch all the projects for a current user
   try {
-    const {
-      userId,
-    } = params;
+    const { userId } = params;
 
     let query: any = {};
 

@@ -6,6 +6,9 @@ export interface IGithubOwnerParams {
 }
 
 export default async function getGithubOwner(params: IGithubOwnerParams) {
+  // Fetches the github owner of the authorization record
+  // This is used in the github sync method
+  // This is pulled from the authorization request for the github app
   try {
     const { githubAuthZ } = params;
 

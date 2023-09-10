@@ -29,32 +29,44 @@ const Modal: React.FC<ModalProps> = ({
   secondaryAction,
   secondaryActionLabel,
 }) => {
+  // Base component for modals across the platform
+  // Sets up the component and how to render it as well as when to display the modal
+
+  // State for displaying the modal on the page
   const [showModal, setShowModal] = useState(isOpen);
 
   useEffect(() => {
+    // Sets the state of the modal base on the boolean isOpen
     setShowModal(isOpen);
   }, [isOpen]);
 
   const handleClose = useCallback(() => {
+    // Callback function used to close the modal
     if (disabled) {
       return;
     }
 
+    // Hide the modal
     setShowModal(false);
+
+    // Close the modal with a 30 second timeout
     setTimeout(() => {
       onClose();
     }, 300);
   }, [disabled, onClose]);
 
   const handleSubmit = useCallback(() => {
+    // Callback function used to submit the component
     if (disabled) {
       return;
     }
 
+    // Run the supplied onSumbit function
     onSubmit();
   }, [disabled, onSubmit]);
 
   const handleSecondaryAction = useCallback(() => {
+    // Function for handling secondary actions, such as 'Back' or 'Cancel'
     if (disabled || !secondaryAction) {
       return;
     }
@@ -66,6 +78,8 @@ const Modal: React.FC<ModalProps> = ({
     return null;
   }
 
+  // Return the JSX for rendering the modal
+  // Uses the showModal boolean to toogle the opacity and translation to show the modal on the page
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black/60 z-[60]">

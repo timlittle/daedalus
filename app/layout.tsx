@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Default layout of the page
+  // Includes all the modals needed , they are toggled through the state of the custom hook
   return (
     <html lang="en">
       <body className={font.className}>

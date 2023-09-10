@@ -17,10 +17,16 @@ import Input from "../inputs/Input";
 import Modal from "./Modal";
 
 const RegisterModal = () => {
+  // A modal used to register new users to the platform
+
+  // Fetch the login modal and regiser modal from customer hooks
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+
+  // Setup state to indicate the modal is busy
   const [isLoading, setIsLoading] = useState(false);
 
+  // Setup the form for submission
   const {
     register,
     handleSubmit,
@@ -34,13 +40,21 @@ const RegisterModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // Submit handlder used when the user submits the form
+
+    // Set the loading state to indicate it is busy
     setIsLoading(true);
 
+    // Make a call to the internal API to create the new user record
     axios
       .post("/api/register", data)
       .then(() => {
+        // Provide feedback to the user
         toast.success("Registration successful!");
+
+        // Prompt the user to login
         loginModal.onOpen();
+        // Close the register modal
         registerModal.onClose();
       })
       .catch((error) => {
@@ -52,10 +66,12 @@ const RegisterModal = () => {
   };
 
   const toggle = useCallback(() => {
+    // Toggle between the login modal and the register modal
     registerModal.onClose();
     loginModal.onOpen();
   }, [loginModal, registerModal]);
 
+  // The conent of the modal, including the email, name and password fields
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Create an account" />
@@ -65,6 +81,7 @@ const RegisterModal = () => {
     </div>
   );
 
+  // Setup a footer for social logins and prompt for existing users
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
@@ -81,6 +98,7 @@ const RegisterModal = () => {
     </div>
   );
 
+  // Render the modal with the Modal base component
   return (
     <Modal
       disabled={isLoading}

@@ -14,6 +14,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser, mobile, menuItems, badgeLabel, badgeAction, documentTitle }) => {
+  // Horizonal navigation bar. Used in the editor and the mobile view of the platform
+  // Contains the logo, link back to home and will build a menu with the supplied menuitems array
   const router = useRouter();
 
   return (
@@ -31,7 +33,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, mobile, menuItems, badgeLa
       </div>
       {documentTitle && (
         <div className="gap-4 navbar-center">
-          <div data-cy="navbar-title" className="title">{documentTitle}</div>
+          <div data-cy="navbar-title" className="title">
+            {documentTitle}
+          </div>
         </div>
       )}
       <div className="navbar-end">

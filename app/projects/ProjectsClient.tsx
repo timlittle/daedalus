@@ -16,18 +16,29 @@ interface ProjectsClientProps {
 }
 
 const ProjectsClient: React.FC<ProjectsClientProps> = ({ projects }) => {
+  // A view to display all the projects that the current users owns
+
+  // Fetch the next router and the project modal state
   const router = useRouter();
   const projectModal = useProjectModal();
+
+  // Set state for deleting a prohect
   const [deletingId, setDeletingId] = useState("");
 
   const onDelete = useCallback(
     (id: string) => {
+      // Callback for deleting a project
+
+      // Set the ID
       setDeletingId(id);
 
+      // Call the internal API to delete the project from the database
       axios
         .delete(`/api/projects/${id}`)
         .then(() => {
+          // Feedback to the user
           toast.success("Project deleted");
+          // Refresh the plage
           router.refresh();
         })
         .catch((error) => {
@@ -42,14 +53,20 @@ const ProjectsClient: React.FC<ProjectsClientProps> = ({ projects }) => {
 
   const onEdit = useCallback(
     (id: string, title: string, description: string) => {
+      // Callback used when editing the project
+
+      // Populate the modal with the state from the card
       projectModal.setProjectId(id);
       projectModal.setProjectTitle(title);
       projectModal.setProjectDescription(description);
+
+      // Open the project modal
       projectModal.onEdit();
     },
     [projectModal]
   );
 
+  // Render a grid of cards, using the ProjectCard and a new project button
   return (
     <Container>
       <div className="text-2xl font-bold flex justify-center sm:pt-14 py-4">

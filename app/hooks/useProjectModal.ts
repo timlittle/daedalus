@@ -1,5 +1,8 @@
 import { create } from "zustand";
 
+// Shared state for the project modal
+// Contains the boolean for displaying the modal
+// Contains the state of the project for the edit function
 interface ProjectModalStore {
   isOpen: boolean;
   onOpen: () => void;

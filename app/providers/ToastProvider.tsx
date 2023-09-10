@@ -3,6 +3,8 @@
 import { Toaster } from "react-hot-toast";
 
 const ToasterProvider = () => {
+  // A provider for displaying toasts to the page
+  // Used to give feedback to the customer on the stage of calls to the api
   return (
     <Toaster
       data-cy="toaster"

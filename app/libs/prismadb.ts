@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
+// Sets up the prisma client for use in the application
+// Uses a global state to prevent multiple clients being opened at once
+
 declare global {
   var prisma: PrismaClient | undefined;
 }

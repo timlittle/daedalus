@@ -9,6 +9,8 @@ interface StoryProps {
 }
 
 const Story: React.FC<StoryProps> = ({ title, dateString, description }) => {
+  // Story componet used for the newsfeed developer updates
+  // Creates a section and formates the date
   const date = parseISO(dateString);
   return (
     <article>

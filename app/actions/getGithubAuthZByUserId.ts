@@ -8,6 +8,11 @@ export interface IGithubAuthZParams {
 }
 
 export default async function getGithubAuthZByUserId(params: IGithubAuthZParams) {
+  // Fetch the cache Github authorization credentials from the database
+  // This function is used to call the Githib API with the ocokit library
+  // This function check to see if the access token has expires and refreshes it if it has
+  // This is needed in order to keep the credentials fresh
+  // The new updated credentials are stored in the database
   try {
     const { userId } = params;
 

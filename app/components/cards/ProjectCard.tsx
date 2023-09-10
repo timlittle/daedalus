@@ -17,12 +17,20 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ data, onDelete, onEdit, disabled, actionId }) => {
+  // Card used to display projects across the platform
+  // Includes a menu for editing and deleting the record
+
+  // Router used for users clicking the card
   const router = useRouter();
 
+  // State for if the menu is open
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
+      // Callback function to perform the delete call
+      // Stops propagation before doing so
+
       e.stopPropagation();
       if (disabled) {
         return;
@@ -34,24 +42,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data, onDelete, onEdit, disab
   );
 
   const toggle = () => {
+    // Function to toggle the menu open or closed
     setIsOpen((value) => !value);
   };
 
   const toggleOpen = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    // Callback function for toggling the menu
+    // Stops propagation and calls the private function above
     e.stopPropagation();
     toggle();
   }, []);
 
   const handleEdit = () => {
+    // Close the menu and open the edit modal
     toggle();
     onEdit?.();
   };
 
   const ref = useDetectClickOutside({
+    // Detection of click events outside of the menu, will close menu
     onTriggered: toggle,
     disableKeys: true,
   });
 
+  // Define the card component for rendering
+  // Includes interactoins menu for editing and deleting
   return (
     <div className="card col-span-1 group max-w-none sm:max-w-[24rem] lg:h-46 xl:h-56 hover:scale-105">
       <div className="flex flex-col gap-2 w-full grow">
@@ -61,7 +76,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data, onDelete, onEdit, disab
             router.push(`/projects/${data.id}`);
           }}
         >
-          <div data-cy={`project-card-${data.title.toLowerCase()}-title`} className="card-header">{data.title}</div>
+          <div data-cy={`project-card-${data.title.toLowerCase()}-title`} className="card-header">
+            {data.title}
+          </div>
           <div data-cy={`project-card-${data.title.toLowerCase()}-description`} className="text-content-2">
             {data.description.substring(0, 50)}
             {data.description.length > 50 && "..."}

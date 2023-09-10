@@ -12,10 +12,17 @@ interface ProfileProps {
 }
 
 const ProfileClient: React.FC<ProfileProps> = ({ currentUser, githubAuthZ, githubAppName }) => {
+  // Profile view of the application
+  // If the user does not have github authorized, will prompt
+  // If so, indicate so
+
+  // If the user is invalid, error out
   if (!currentUser) {
     return <EmptyState title="Error" subtitle="Unable to determine user" />;
   }
 
+  // Display the user information
+  // Conditional include for the Github App Setup steps
   return (
     <div className="flex flex-col">
       <div className="text-2xl font-bold flex justify-center sm:pt-14 py-4 border-b-[1px] border-b-gray-600">

@@ -17,7 +17,7 @@ export default async function Home() {
     <Story
     key={21}
     title="Splash page"
-    description="A new splash page has been launch for unauthenticated users. The page highlights the features of Deadalus."
+    description="A new splash page has been launched for unauthenticated users. The page highlights the features of Daedalus."
     dateString="2023-09-09"
   />,
     <Story
@@ -29,13 +29,13 @@ export default async function Home() {
     <Story
     key={19}
     title="Improved Mobile experience"
-    description="Updates to the mobile navigation bar, navigation in the Editor and adding buttons on the project and documents pages for creation. Button availible in the mobile experience. Buttons from the main navigation bar in the Editor moved to the menu"
+    description="Updates to the mobile navigation bar, navigation in the Editor and adding buttons on the project and documents pages for creation. Button available in the mobile experience. Buttons from the main navigation bar in the Editor moved to the menu"
     dateString="2023-09-06"
   />,
     <Story
       key={18}
       title="Sync documents with Github!!🎉"
-      description="Users can syncronise documents from Daedalus into their Github Repos. To do this, users must first install the Daedlus Github application by going to their Daedalus Profile (/profile_) and clicking 'Connect to Github'. Users can select which repos to give Daedalus access to. Once connected to Github, users can navigate to a document and click the 'Sync to Github' button in the Menu. "
+      description="Users can synchronise documents from Daedalus into their Github Repos. To do this, users must first install the Daedalus Github application by going to their Daedalus Profile (/profile_) and clicking 'Connect to Github'. Users can select which repos to give Daedalus access to. Once connected to Github, users can navigate to a document and click the 'Sync to Github' button in the Menu. "
       dateString="2023-09-05"
     />,
     <Story
@@ -47,13 +47,13 @@ export default async function Home() {
     <Story
       key={16}
       title="Profile page added + line wrapping"
-      description="New profile page has been added. This page displays information about your Dedalus user and when you account was created. On the editor page, line wrapping has been enabled to prevent horizontal scrolling in the UI when typing long lines of text."
+      description="New profile page has been added. This page displays information about your Daedalus user and when you account was created. On the editor page, line wrapping has been enabled to prevent horizontal scrolling in the UI when typing long lines of text."
       dateString="2023-09-03"
     />,
     <Story
       key={15}
       title="News feed added"
-      description="The homepage has been updated to include a newsfeed for the development of Daedalus. Feedback from beta testers of the platform indicated they would like more visibility into the updates that are occuring on the application. The newfeed acts as a mechnism to provide testers with a single entry point to understand the latest updates. "
+      description="The homepage has been updated to include a newsfeed for the development of Daedalus. Feedback from beta testers of the platform indicated they would like more visibility into the updates that are occurring on the application. The newsfeed acts as a mechnism to provide testers with a single entry point to understand the latest updates. "
       dateString="2023-09-03"
     />,
     <Story
@@ -71,13 +71,13 @@ export default async function Home() {
     <Story
       key={12}
       title="Render Mermaid and PlantUML diagrams"
-      description="The markdown render has been extended to support mermaid and plantUML documents. Documents can be defined using fence blocks within the markdown documents. This is rendered in the preview panel. Mermaid and PlantUML are UML as Code frameworks, enabling users to define a diagram in text and have a digram render based on the defintion."
+      description="The markdown render has been extended to support mermaid and plantUML documents. Documents can be defined using fence blocks within the markdown documents. This is rendered in the preview panel. Mermaid and PlantUML are UML as Code frameworks, enabling users to define a diagram in text and have a digram render based on the definition."
       dateString="2023-09-01"
     />,
     <Story
       key={11}
       title="Use Hocuspocus as a yJS provider"
-      description="Hocuspocus is a hosted websocket which can be used as a yJS provider. This removes a dependency on running a local websocket server or public WebRTC signaling servers. "
+      description="Hocuspocus is a hosted websocket which can be used as a yJS provider. This removes a dependency on running a local websocket server or public WebRTC signalling servers. "
       dateString="2023-09-01"
     />,
     <Story
@@ -95,7 +95,7 @@ export default async function Home() {
     <Story
       key={8}
       title="Add Documents to Daedalus "
-      description="One of the core entities has been added to the platform. A document is a single narrative or design which users can collaborate on. This update adds the ablity to add/update/delete new documents within a project. The UI is the same as the project operations."
+      description="One of the core entities has been added to the platform. A document is a single narrative or design which users can collaborate on. This update adds the ability to add/update/delete new documents within a project. The UI is the same as the project operations."
       dateString="2023-08-26"
     />,
     <Story
@@ -137,13 +137,13 @@ export default async function Home() {
     <Story
       key={1}
       title="Added RippleUI"
-      description="After some research into Tailwind component libraries, RippleUI has been added to the application to simplify stying. The side navigiation bar has been added and Modals for siginging into the platform"
+      description="After some research into Tailwind component libraries, RippleUI has been added to the application to simplify stying. The side navigation bar has been added and Modals for signing into the platform"
       dateString="2023-08-19"
     />,
     <Story
       key={0}
       title="Daedalus is born!!"
-      description="After a large amount of research and prototyping. Daedalus has started full time development. A large portion of the website has been prototyped and needs stiching together into a production ready site."
+      description="After a large amount of research and prototyping. Daedalus has started full time development. A large portion of the website has been prototyped and needs stitching together into a production ready site."
       dateString="2023-08-19"
     />,
   ];
