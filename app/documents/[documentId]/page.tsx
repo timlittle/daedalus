@@ -38,9 +38,10 @@ const DocumentPage = async ({ params }: { params: IDocumentParams }) => {
   const sharedUsers = await getAllSharedUsers({ documentId: documentId, ownerId: document?.userId });
   // Fetch the JWT secret from the envvar for the yJS provider
   const jwtSecret = await process.env.TIPTAP_JWT_SECRET;
+  const tipTapApp = await process.env.TIPTAP_APP;
 
   // If there is mising data, error and feedback to the user
-  if (!document || !project || !currentUser || !jwtSecret) {
+  if (!document || !project || !currentUser || !jwtSecret || !tipTapApp) {
     return <AppContainer currentUser={currentUser} body={<EmptyState title="Error" subtitle="An error occured" />} />;
   }
 
@@ -85,6 +86,7 @@ const DocumentPage = async ({ params }: { params: IDocumentParams }) => {
       allUsers={allUsers}
       sharedUsers={sharedUsers}
       jwtToken={jwtToken}
+      tipTapApp={tipTapApp}
       githubAuthZ={githubAuthZ}
       githubOwner={githubOwner}
       githubRepos={githubRepos}

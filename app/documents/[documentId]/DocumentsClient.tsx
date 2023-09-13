@@ -38,6 +38,7 @@ interface DocumentClientProps {
   document: Document;
   project: Project;
   jwtToken: string;
+  tipTapApp: string;
   allUsers: SafeUser[] | [];
   sharedUsers: SafeUser[] | undefined;
   githubAuthZ?: GithubAuthZ | null;
@@ -50,6 +51,7 @@ const DocumentClient = ({
   document,
   project,
   jwtToken,
+  tipTapApp,
   allUsers,
   sharedUsers,
   githubAuthZ,
@@ -121,7 +123,7 @@ const DocumentClient = ({
     // Setup the HocusPocus store using the cloud based version
     // Use the JWT to authenticate
     const provider = new TiptapCollabProvider({
-      appId: "jkv8llmx",
+      appId: tipTapApp,
       name: document.id,
       token: jwtToken,
       document: doc,
