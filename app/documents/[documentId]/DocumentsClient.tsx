@@ -161,7 +161,7 @@ const DocumentClient = ({
       // Disconnect from the yJS provider on exit
       provider.disconnect();
     };
-  }, [initalMarkdown, editorMarkdown, document.id, store, extensions, currentUser, jwtToken, editorStateText]);
+  }, [initalMarkdown, editorMarkdown, document.id, store, extensions, currentUser, jwtToken, editorStateText, tipTapApp]);
 
   const onChange = (markdown: string) => {
     // Update the state for the editor when the CodeMirror editor changes (Users type)
