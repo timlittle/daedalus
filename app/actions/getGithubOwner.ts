@@ -12,7 +12,9 @@ export default async function getGithubOwner(params: IGithubOwnerParams) {
   try {
     const { githubAuthZ } = params;
 
-    if (!githubAuthZ) {
+    const now = Math.round(Date.now() / 1000);
+
+    if (!githubAuthZ || now >= githubAuthZ.expiresAt) {
       return;
     }
 

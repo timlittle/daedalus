@@ -25,7 +25,7 @@ describe("Sharing", () => {
     cy.get('[data-cy="button-continue"]').click();
 
     // Wait for login
-    cy.wait(500);
+    cy.wait(1000);
 
     // Go to the projects page
     cy.get('[data-cy="navbar-menu"]').click();
@@ -75,7 +75,7 @@ describe("Sharing", () => {
     cy.get('[data-cy="button-continue"]').click();
 
     // Wait for login
-    cy.wait(500);
+    cy.wait(1000);
 
     // Go to the shared documents views
     cy.get('[data-cy="navbar-menu"]').click();
